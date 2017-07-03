@@ -6,13 +6,13 @@
     $access_token = $_SESSION['access_token'];
     $instance_url = $_SESSION['instance_url'];
 
-    if (!isset($access_token) || $access_token == "") {
-        die("Error - access token missing from session!");
-    }
+    // if (!isset($access_token) || $access_token == "") {
+    //     die("Error - access token missing from session!");
+    // }
 
-    if (!isset($instance_url) || $instance_url == "") {
-        die("Error - instance URL missing from session!");
-    }
+    // if (!isset($instance_url) || $instance_url == "") {
+    //     die("Error - instance URL missing from session!");
+    // }
 
     // get all child accounts of parent $id - then loop through it below like before (will need to delete events)
     // if($page_load = 0){
@@ -51,15 +51,17 @@
 <!doctype html>
 <html class="no-js" lang="">
     <head>
-		<script src="/Jquery.js" type="text/javascript"></script>
-		<script src="/jquery-ui.min.js" type="text/javascript"></script>
+    	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<script src="./js/Jquery.js" type="text/javascript"></script>
+		<script src="./js/jquery-ui.min.js" type="text/javascript"></script>
 
-		<link class="user" href="/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		<link class="user" href="/IU_form_branding.css" rel="stylesheet" type="text/css" />
-		<link class="user" href="/IU_frameworks_CSS_Forms.css" rel="stylesheet" type="text/css" />
-		<link class="user" href="/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<link class="user" href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link class="user" href="./css/IU_form_branding.css" rel="stylesheet" type="text/css" />
+		<link class="user" href="./css/iu-framework.min.css" rel="stylesheet" type="text/css" />
+		<link class="user" href="./css/IU_frameworks_CSS_Forms.css" rel="stylesheet" type="text/css" />
+		<link class="user" href="./css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-		<link class="user" href="/calender_FA_001.css" rel="stylesheet" type="text/css" />
+		<link class="user" href="./css/calender_FA_001.css" rel="stylesheet" type="text/css" />
 		<link href="https://fonts.iu.edu/style.css?family=BentonSans:regular,bold%7CBentonSansCond:regular%7CGeorgiaPro:regular" rel="stylesheet" />
 
 		<style type="text/css">
