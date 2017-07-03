@@ -1,0 +1,211 @@
+		#content_container .wFormTitle {
+			font-size: 2.3125rem;
+			font-family: BentonSansBold, Helvetica, Arial, sans-serif;
+			font-weight: 800;
+			font-style: normal;
+			color: #333333;
+			text-rendering: optimizeLegibility;
+			margin-top: 0;
+			margin-bottom: 1.25rem;
+			line-height: 1.15;
+		}
+		
+		* {
+			padding: 0px;
+			margin: 0px;
+			vertical-align: middle;
+		}
+		
+		#content_container h1, #content_container h2, #content_container h3, #content_container h4, #content_container h5, #content_container h6 {
+			color: #333333;
+			font-family: BentonSansBold, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+			font-style: normal;
+			font-weight: 800;
+			line-height: 1.15;
+			margin-bottom: 1.5rem;
+			margin-top: 0.2rem;
+			text-rendering: optimizeLegibility;
+		}
+		
+		#content_container h3 {
+			font-size: 1.6875rem;
+		}
+		#content_container p {
+			font-family: inherit;
+			font-size: 1.25rem;
+			font-weight: normal;
+			line-height: 1.6;
+			margin-bottom: 1.25rem;
+			text-rendering: optimizeLegibility;
+		}
+		
+		.section .layout {
+			position: relative;
+			padding-left: 0.75rem;
+			padding-right: 0.75rem;
+			width: 75%;
+			left: 25%;
+			right: auto;
+			float: left;
+		}
+		
+		body {
+			background-color: #EEEDEB !important;
+		}
+		
+		.top {
+			background-color: #FFFFFF;
+			margin: 0 auto;
+			width: 100%;
+			display: block;
+			position: relative;
+		}
+		#content_container {
+			background-color: #FFFFFF;
+			margin: -30% auto 0px auto;
+			width: 90%;
+			display: block;
+			position: relative;
+		}
+		
+		#ribbon { 
+			width: 100%;
+			height: auto;
+			border-top: 5px solid #990000;
+			background-color: #7A1705;
+			padding: 5px 0px;
+			font-size: 18px;
+			color: #fff;
+			font-family: BentonSansCondRegular, Arial, serif;
+			font-weight: normal;
+			line-height: 45px;
+			position: relative;
+		}
+		
+		#ribbon-container {
+			padding-left: 0.9375rem;
+			padding-right: 0.9375rem;
+			max-width: 64rem;
+			margin: 0 auto;
+		}
+		
+			.ribbon-trident {
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0.9375em;
+				padding: 0px;
+				margin-right: 20px;
+				background: #981b1e;
+				z-index: 200;
+				position: relative;
+			}
+		
+				.ribbon-trident img {
+					width: 65px;
+					height: auto;
+					top: -5px;
+					position: absolute;
+				}
+		
+			#ribbon span{ 
+				text-transform: uppercase;
+				padding-left: 100px;
+			}
+		
+		#banner {
+			width: 100%;
+			overflow: hidden;
+		}
+		
+			#banner img{
+				width: auto;
+				height: 100%;
+				vertical-align: top;
+			}
+			
+		.hide-on-desktop {
+			display: none;
+		}
+		.hide-on-tablet {
+			display: inherit;
+		}
+
+		@media only screen and (min-width: 768px)  {
+			h1, h2, h3, h4, h5, h6 {
+				line-height: 1.15;
+			}
+			h2, h3 {
+				font-size: 2.3125rem;
+			}
+			p, ul, ol, dl {
+				font-size: 1.25rem;
+			}
+		
+			#banner {
+				width: 100%;
+				max-height: 400px;
+				height: auto;
+				overflow: hidden;
+			}
+			
+				#banner img{
+					width: 100%;
+					height: auto;
+				}
+				
+			#content_container {
+				background-color: #FFFFFF;
+				margin: -80px auto 0px auto;
+				width: 90%;
+				display: block;
+				position: relative;
+				padding: 20px 40px;
+			}
+			
+			.hide-on-desktop {
+				display: inherit;
+			}
+			.hide-on-tablet {
+				display: none;
+			}
+			
+			.wForm th, .wForm td {
+				width: 50%;
+			}
+			.wForm .inputWrapper {
+				width:100%;
+			}
+			
+		}
+		
+		@media only screen and (min-width: 1200px)  {
+		
+		}
+		 
+		
+		/*
+			Use only for Form Assembly form elements
+		*/
+		@media only screen and (max-width: 867px)  {
+			tr, tbody, table {
+				width: 100%;
+			}
+			td {
+				display: block;	
+				width: 100%;
+			}
+			.inputWrapper {
+				width: 100%;
+			}
+			.wForm h4 {
+				font-size: 1.3875rem;
+			}
+			
+			h3 span {
+				font-size: 1.5rem !important;
+			}
+			.wFormContainer {
+				width: 100%;
+			}
+		}
