@@ -207,6 +207,11 @@
 				}
 			@media only screen and (max-width: 800px) {
 			
+
+				.ui-datepicker {
+					width: 90%; /*what ever width you want*/
+					margin:0 auto;
+				}
 				.ribbon-trident img {
 					width: 46px !important;
 				}
@@ -477,7 +482,7 @@
 
 	}else{
 	$("#errorMessage").addClass("hiddenClass");
-	/*
+	/* 
 	alert("First Name is: " + " " + $('[id*=firstname]').val() + "   " +
 	"Last Name is: " + " " + $('[id*=lastname]').val() + "    " +
 	"Email is: " + " " + $('[id*=email]').val() + "    " +
@@ -500,7 +505,11 @@
 	"Event: " + " " + $('[id*=select-date-time]').val() + " " +
 	"Event: " + " " + $('[id*="numberOfGuests"]').val()
 	);
+
+	return false;
 	*/
+	
+
 	}
 	});
 
@@ -576,9 +585,9 @@
 
 	}else if( (mobilenumberval == "") || (isnotanumber) ){
 	mobilenumber.val( mobilenumberval.replace(/[^\d.-]/g, '') );
-	//mobilenumber.addClass('errorField');
-	//error_number++;
-	//error_message += "Mobile Number field is either empty or needs a foreign/domestic number <br />";
+	mobilenumber.addClass('errorField');
+	error_number++;
+	error_message += "Mobile Number field is either empty or needs a foreign/domestic number <br />";
 	}else{
 	mobilenumber.val( mobilenumberval.replace(/[^\d.-]/g, '') );
 	}
@@ -1593,9 +1602,11 @@
 	</div>
 
 	</div>
-	<label class="hiddenClass" for="date-selected">Select a date on the input following</label>
-	<input class="date-selected" id="date-selected" placeholder="Select your tour date by clicking here" style="display:block;" />
 
+	<div id="date-selected-container" style="width:100%;">
+	<label class="hiddenClass" for="date-selected">Select a date on the input following</label>
+	<input type="text" class="date-selected" id="date-selected" placeholder="Select your tour date by clicking here" style="display:block;" />
+	</div>
 
 	<label class="select-multiple-paragraph" for="select-date-time">
 	Select a time
@@ -1782,92 +1793,198 @@
 
 
 		//define calendar
-		$('#date-selected').datepicker({
-		onSelect: function(dateStuff){
+		if( $(window).innerWidth() > 800 ){
+			$('#date-selected').datepicker({
+			    onSelect: function(dateStuff) {
 
-		var select_ion = [],
-		dateStuffReplaced = dateStuff.replace(/\//g, "-"),
-		indexNumbers = [],
-		i = 0,
-		amount_of_dates=0;
+			        var select_ion = [],
+			            dateStuffReplaced = dateStuff.replace(/\//g, "-"),
+			            indexNumbers = [],
+			            i = 0,
+			            amount_of_dates = 0;
 
-		amount_of_dates = countInArray( dataDates, dateStuffReplaced );
-		// indexNumbers.push( dataDates.indexOf( dateStuffReplaced ) );
+			        amount_of_dates = countInArray(dataDates, dateStuffReplaced);
+			        // indexNumbers.push( dataDates.indexOf( dateStuffReplaced ) );
 
-		while( i < dataDates.length ){
-		//if the current dataDates is in array - record i (which is the index)
-		if( dataDates[i] == dateStuffReplaced ){
-		indexNumbers.push( i );
-		}
-		i++;
-		}
-
-
-		// i now will have an array of indexes where selected date is
-
-		if( indexNumbers.length > 0 ){
+			        while (i < dataDates.length) {
+			            //if the current dataDates is in array - record i (which is the index)
+			            if (dataDates[i] == dateStuffReplaced) {
+			                indexNumbers.push(i);
+			            }
+			            i++;
+			        }
 
 
-		$('.select-multiple-paragraph').show();
-		$('.numberOfGuestsContain').show();
-		$('[id*="select-date-time"]').show();
-		$('[id*="date-selected"]').show()
-		$('.select-multiple option').remove();
-		// $('.select-multiple-paragraph').remove();
-		// $("<p class=\"select-multiple-paragraph\" name=\"timeSelected\">Select a time</p><select id=\"select-date-time\" class=\"select-multiple\">").insertAfter('.date-selected');
+			        // i now will have an array of indexes where selected date is
 
-		$('<option />', {value: "", text: " "}).appendTo('.select-multiple');
-
-		$.each(indexNumbers, function(index, el) {
-		$('<option />', {value: dataEventArray[el]['id'], text: dataEventArray[el]['data']['time']}).appendTo('.select-multiple');
-		});
-
-		}
-
-		// uses code from above page.
+			        if (indexNumbers.length > 0) {
 
 
+			            $('.select-multiple-paragraph').show();
+			            $('.numberOfGuestsContain').show();
+			            $('[id*="select-date-time"]').show();
+			            $('[id*="date-selected"]').show()
+			            $('.select-multiple option').remove();
+			            // $('.select-multiple-paragraph').remove();
+			            // $("<p class=\"select-multiple-paragraph\" name=\"timeSelected\">Select a time</p><select id=\"select-date-time\" class=\"select-multiple\">").insertAfter('.date-selected');
 
-		},
-		beforeShowDay: function(date) {
-		var string = jQuery.datepicker.formatDate('mm-dd-yy', date),
-		string_slash = string.replace(/-/g, "/"),
-		amount_of_dates=0;
+			            $('<option />', {
+			                value: "",
+			                text: " "
+			            }).appendTo('.select-multiple');
 
-		// see if there are duplicate values
-		amount_of_dates = countInArray( dataDates, string );
+			            $.each(indexNumbers, function(index, el) {
+			                $('<option />', {
+			                    value: dataEventArray[el]['id'],
+			                    text: dataEventArray[el]['data']['time']
+			                }).appendTo('.select-multiple');
+			            });
 
-		// see if there are closed values
-		amount_of_closed_dates = countInArray( dataDatesClosed, string );
+			        }
+
+			        // uses code from above page.
 
 
 
-		// return a date if there is one - place into calendar
-		if (amount_of_dates > 1) {
-		return [dataDates.indexOf(string) > -1, "regularUIDatesMultiple", "Multiple Dates - Select time below"];
-		}else if(amount_of_dates == 1){
-		return [dataDates.indexOf(string) > -1, "regularUIDatesSingle", "Single Date - Select time below"];
+			    },
+			    beforeShowDay: function(date) {
+			        var string = jQuery.datepicker.formatDate('mm-dd-yy', date),
+			            string_slash = string.replace(/-/g, "/"),
+			            amount_of_dates = 0;
+
+			        // see if there are duplicate values
+			        amount_of_dates = countInArray(dataDates, string);
+
+			        // see if there are closed values
+			        amount_of_closed_dates = countInArray(dataDatesClosed, string);
+
+
+
+			        // return a date if there is one - place into calendar
+			        if (amount_of_dates > 1) {
+			            return [dataDates.indexOf(string) > -1, "regularUIDatesMultiple", "Multiple Dates - Select time below"];
+			        } else if (amount_of_dates == 1) {
+			            return [dataDates.indexOf(string) > -1, "regularUIDatesSingle", "Single Date - Select time below"];
+			        } else {
+
+			            // if date is closed
+			            if (amount_of_closed_dates > 0) {
+			                return [false, "closedUIDates", "Event Full - No time to select"];
+			            } else {
+			                return [false];
+			            }
+			        }
+			    }
+			});
+
+			function countInArray(array, what) {
+			    var count = 0;
+			    for (var i = 0; i < array.length; i++) {
+			        if (array[i] === what) {
+			            count++;
+			        }
+			    }
+			    return count;
+			}
+		//end window size greater than 800
 		}else{
+			$('#date-selected').hide();
+			$('#date-selected-container').datepicker({
+			    onSelect: function(dateStuff) {
 
-		// if date is closed
-		if ( amount_of_closed_dates > 0 ){
-		return [ false, "closedUIDates", "Event Full - No time to select" ];
-		}else{
-		return [false];
-		}
-		}
-		}
-		});
+			        var select_ion = [],
+			            dateStuffReplaced = dateStuff.replace(/\//g, "-"),
+			            indexNumbers = [],
+			            i = 0,
+			            amount_of_dates = 0;
 
-		function countInArray(array, what) {
-		var count = 0;
-		for (var i = 0; i < array.length; i++) {
-		if (array[i] === what) {
-		count++;
-		}
-		}
-		return count;
-		}
+			        // console.log(dateStuff);
+			        $('#date-selected').val( dateStuff );
+
+			        amount_of_dates = countInArray(dataDates, dateStuffReplaced);
+			        // indexNumbers.push( dataDates.indexOf( dateStuffReplaced ) );
+
+			        while (i < dataDates.length) {
+			            //if the current dataDates is in array - record i (which is the index)
+			            if (dataDates[i] == dateStuffReplaced) {
+			                indexNumbers.push(i);
+			            }
+			            i++;
+			        }
+
+
+			        // i now will have an array of indexes where selected date is
+
+			        if (indexNumbers.length > 0) {
+
+
+			            $('.select-multiple-paragraph').show();
+			            $('.numberOfGuestsContain').show();
+			            $('[id*="select-date-time"]').show();
+			            $('[id*="date-selected"]').show()
+			            $('.select-multiple option').remove();
+			            // $('.select-multiple-paragraph').remove();
+			            // $("<p class=\"select-multiple-paragraph\" name=\"timeSelected\">Select a time</p><select id=\"select-date-time\" class=\"select-multiple\">").insertAfter('.date-selected');
+
+			            $('<option />', {
+			                value: "",
+			                text: " "
+			            }).appendTo('.select-multiple');
+
+			            $.each(indexNumbers, function(index, el) {
+			                $('<option />', {
+			                    value: dataEventArray[el]['id'],
+			                    text: dataEventArray[el]['data']['time']
+			                }).appendTo('.select-multiple');
+			            });
+
+			        }
+
+			        // uses code from above page.
+
+
+
+			    },
+			    beforeShowDay: function(date) {
+			        var string = jQuery.datepicker.formatDate('mm-dd-yy', date),
+			            string_slash = string.replace(/-/g, "/"),
+			            amount_of_dates = 0;
+
+			        // see if there are duplicate values
+			        amount_of_dates = countInArray(dataDates, string);
+
+			        // see if there are closed values
+			        amount_of_closed_dates = countInArray(dataDatesClosed, string);
+
+
+
+			        // return a date if there is one - place into calendar
+			        if (amount_of_dates > 1) {
+			            return [dataDates.indexOf(string) > -1, "regularUIDatesMultiple", "Multiple Dates - Select time below"];
+			        } else if (amount_of_dates == 1) {
+			            return [dataDates.indexOf(string) > -1, "regularUIDatesSingle", "Single Date - Select time below"];
+			        } else {
+
+			            // if date is closed
+			            if (amount_of_closed_dates > 0) {
+			                return [false, "closedUIDates", "Event Full - No time to select"];
+			            } else {
+			                return [false];
+			            }
+			        }
+			    }
+			});
+
+			function countInArray(array, what) {
+			    var count = 0;
+			    for (var i = 0; i < array.length; i++) {
+			        if (array[i] === what) {
+			            count++;
+			        }
+			    }
+			    return count;
+			}
+		}//end of less than 800 window width
 
 
 		});//end window load

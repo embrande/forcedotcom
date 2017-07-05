@@ -191,10 +191,6 @@
 			tr, tbody, table {
 				width: 100%;
 			}
-			td {
-				display: block;	
-				width: 100%;
-			}
 			.inputWrapper {
 				width: 100%;
 			}
