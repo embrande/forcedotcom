@@ -14,6 +14,72 @@
     if (!isset($instance_url) || $instance_url == "") {
         die("Error - instance URL missing from session!");
     }
+	
+	if(isset($_GET['submit'])){
+	
+		if( $_GET['submit'] == 1 ){
+			
+			$firstName = $_POST['firstname'];
+			$lastName = $_POST['lastname'];
+			$email = $_POST['email'];
+			$mobilePhone = $_POST['mobilephone'];
+			$countryYesOrNo = $_POST['country'];
+			$address = $_POST['address'];
+			$city = $_POST['city'];
+			$state = $_POST['state'];
+			$zipcode = $_POST['zipcode'];
+			$outsideCountry = $_POST['outsidecountry'];
+			$hispanicYesOrNo = $_POST['hispanicYesOrNo'];
+			if(!empty($_POST['race'])){
+				foreach($_POST['race'] as $race_check){
+					if($race_check == 'americanIndian')
+					{
+						echo $race_check . " <br /> ";
+						// theContact.ethnic_American_Indian__c = true;
+					}
+					if($race_check == 'asian')
+					{
+						echo $race_check . " <br /> ";
+						// theContact.ethnic_Asian__c = true;
+					}
+					if($race_check == 'africanAmerican')
+					{
+						echo $race_check . " <br /> ";
+						// theContact.ethnic_African_American__c = true;
+					}
+					if($race_check == 'nativeHawaiian')
+					{
+						echo $race_check . " <br /> ";
+						// theContact.ethnic_Hawaiian__c = true;
+					}
+					if($race_check == 'white')
+					{
+						echo $race_check . " <br /> ";
+						// theContact.ethnic_White__c = true;
+					}
+				}
+			}
+			$studentStatus = $_POST['studentstatus'];
+			$highSchool = $_POST['highSchool'];
+			$startDate = $_POST['startDate'];
+			$startYear = $_POST['startYear'];
+			$termCode = $_POST['termIDHidden'];
+			$proposedMajor = $_POST['majorList'];
+			$acadPlan = $_POST['acadPlanHidden'];
+			$specialNeeds = $_POST['specialNeeds'];
+			$eventID = $_POST['eventIDHidden'];
+			$numberOfGuests = $_POST['numberOfGuests'];
+			
+			print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
+			
+			
+			echo $firstName;
+			$page_success = $_GET['submit'];
+			$page_load = 1;
+			die("testing feature");
+		}
+		
+	}
 
     // get all child accounts of parent $id - then loop through it below like before (will need to delete events)
     if($page_load == 0){
@@ -21,11 +87,7 @@
     	$campaign_children = json_decode( $campaign_children, true );
     }
 
-    
-
-
-             
-	
+  
 
 
     // Look for record based on first last and email
@@ -800,7 +862,7 @@
 		<div id="ribbon">
 			<div id="ribbon-container">
 				<div class="ribbon-trident">
-					<img alt="Fall Fest at IUPUI" src="/campustouriupui/resource/1497695418000/IU_Form_branded/IU_Form_branded/iu_tab_web.png" width="800" />
+					<img alt="Fall Fest at IUPUI" src="img/iu_tab_web.png" width="800" />
 				</div>
 				<span class="hide-on-desktop">
 					Indiana University-Purdue University Indianapolis
@@ -901,36 +963,37 @@
 	<div class="wide" id="content_container">
 
 	<H1>Daily IUPUI Campus Tours</H1>
-	<form id="EventRegistrationCampusTour:campusVisitForm" name="EventRegistrationCampusTour:campusVisitForm" method="post" action="oauth.php" class="iu_form" enctype="application/x-www-form-urlencoded">
+    
+	<form id="EventRegistrationCampusTour:campusVisitForm" name="EventRegistrationCampusTour:campusVisitForm" method="post" action="?submit=1" class="iu_form" enctype="application/x-www-form-urlencoded">
 	<input type="hidden" name="EventRegistrationCampusTour:campusVisitForm" value="EventRegistrationCampusTour:campusVisitForm" />
-	<script> if(!window.sfdcPage) { window.sfdcPage = new ApexPage(); }UserContext.initialize({"ampm":["AM","PM"],"isAccessibleMode":false,"uiSkin":"Theme3","salesforceURL":"http://iupuitour-indiana.cs64.force.com","dateFormat":"M/d/yyyy","language":"en_US","locale":"en_US","userName":"eventregistrationcampustouriupui@iupuitour-indiana.cs64.force.com","userId":"0050q000000Rm1h","isCurrentlySysAdminSU":false,"renderMode":"RETRO","startOfWeek":"1","vfDomainPattern":"indianauniversity--IUPUItour--(?:[^.]+).cs64.visual.force.com","auraDomain":"indianauniversity--IUPUItour.lightning.force.com","dateTimeFormat":"M/d/yyyy h:mm a","orgPreferences":[{"index":257,"name":"TabOrganizer","value":true},{"index":113,"name":"GroupTasks","value":true}],"siteUrlPrefix":"/campustouriupui","isDefaultNetwork":true,"labelLastModified":"1498688260000","today":"7/2/2017 10:04 PM","timeFormat":"h:mm a","userPreferences":[{"index":112,"name":"HideInlineEditSplash","value":false},{"index":114,"name":"OverrideTaskSendNotification","value":false},{"index":115,"name":"DefaultTaskSendNotification","value":false},{"index":119,"name":"HideUserLayoutStdFieldInfo","value":false},{"index":116,"name":"HideRPPWarning","value":false},{"index":87,"name":"HideInlineSchedulingSplash","value":false},{"index":88,"name":"HideCRUCNotification","value":false},{"index":89,"name":"HideNewPLESplash","value":false},{"index":90,"name":"HideNewPLEWarnIE6","value":false},{"index":122,"name":"HideOverrideSharingMessage","value":false},{"index":91,"name":"HideProfileILEWarn","value":false},{"index":93,"name":"HideProfileElvVideo","value":false},{"index":97,"name":"ShowPicklistEditSplash","value":false},{"index":92,"name":"HideDataCategorySplash","value":false},{"index":128,"name":"ShowDealView","value":false},{"index":129,"name":"HideDealViewGuidedTour","value":false},{"index":132,"name":"HideKnowledgeFirstTimeSetupMsg","value":false},{"index":104,"name":"DefaultOffEntityPermsMsg","value":false},{"index":135,"name":"HideNewCsnSplash","value":false},{"index":101,"name":"HideBrowserWarning","value":false},{"index":139,"name":"HideDashboardBuilderGuidedTour","value":false},{"index":140,"name":"HideSchedulingGuidedTour","value":false},{"index":180,"name":"HideReportBuilderGuidedTour","value":false},{"index":183,"name":"HideAssociationQueueCallout","value":false},{"index":194,"name":"HideQTEBanner","value":false},{"index":193,"name":"HideChatterOnboardingSplash","value":false},{"index":195,"name":"HideSecondChatterOnboardingSplash","value":false},{"index":270,"name":"HideIDEGuidedTour","value":false},{"index":282,"name":"HideQueryToolGuidedTour","value":false},{"index":196,"name":"HideCSIGuidedTour","value":false},{"index":271,"name":"HideFewmetGuidedTour","value":false},{"index":272,"name":"HideEditorGuidedTour","value":false},{"index":205,"name":"HideApexTestGuidedTour","value":false},{"index":206,"name":"HideSetupProfileHeaderTour","value":false},{"index":207,"name":"HideSetupProfileObjectsAndTabsTour","value":false},{"index":213,"name":"DefaultOffArticleTypeEntityPermMsg","value":false},{"index":214,"name":"HideSelfInfluenceGetStarted","value":false},{"index":215,"name":"HideOtherInfluenceGetStarted","value":false},{"index":216,"name":"HideFeedToggleGuidedTour","value":false},{"index":268,"name":"ShowChatterTab178GuidedTour","value":false},{"index":275,"name":"HidePeopleTabDeprecationMsg","value":false},{"index":276,"name":"HideGroupTabDeprecationMsg","value":false},{"index":224,"name":"HideUnifiedSearchGuidedTour","value":false},{"index":226,"name":"ShowDevContextMenu","value":false},{"index":227,"name":"HideWhatRecommenderForActivityQueues","value":false},{"index":228,"name":"HideLiveAgentFirstTimeSetupMsg","value":false},{"index":232,"name":"HideGroupAllowsGuestsMsgOnMemberWidget","value":false},{"index":233,"name":"HideGroupAllowsGuestsMsg","value":false},{"index":234,"name":"HideWhatAreGuestsMsg","value":false},{"index":235,"name":"HideNowAllowGuestsMsg","value":false},{"index":236,"name":"HideSocialAccountsAndContactsGuidedTour","value":false},{"index":237,"name":"HideAnalyticsHomeGuidedTour","value":false},{"index":238,"name":"ShowQuickCreateGuidedTour","value":false},{"index":245,"name":"HideFilePageGuidedTour","value":false},{"index":250,"name":"HideForecastingGuidedTour","value":false},{"index":251,"name":"HideBucketFieldGuide","value":false},{"index":263,"name":"HideSmartSearchCallOut","value":false},{"index":265,"name":"HideSocialProfilesKloutSplashScreen","value":false},{"index":273,"name":"ShowForecastingQuotaAttainment","value":false},{"index":280,"name":"HideForecastingQuotaColumn","value":false},{"index":301,"name":"HideManyWhoGuidedTour","value":false},{"index":298,"name":"HideFileSyncBannerMsg","value":false},{"index":299,"name":"HideTestConsoleGuidedTour","value":false},{"index":302,"name":"HideManyWhoInlineEditTip","value":false},{"index":303,"name":"HideSetupV2WelcomeMessage","value":false},{"index":312,"name":"ForecastingShowQuantity","value":false},{"index":313,"name":"HideDataImporterIntroMsg","value":false},{"index":314,"name":"HideEnvironmentHubLightbox","value":false},{"index":316,"name":"HideSetupV2GuidedTour","value":false},{"index":317,"name":"HideFileSyncMobileDownloadDialog","value":false},{"index":322,"name":"HideEnhancedProfileHelpBubble","value":false},{"index":328,"name":"ForecastingHideZeroRows","value":false},{"index":330,"name":"HideEmbeddedComponentsFeatureCallout","value":false},{"index":341,"name":"HideDedupeMatchResultCallout","value":false},{"index":340,"name":"HideS1BrowserUI","value":false},{"index":346,"name":"HideS1Banner","value":false},{"index":358,"name":"HideEmailVerificationAlert","value":false},{"index":354,"name":"HideLearningPathModal","value":false},{"index":359,"name":"HideAtMentionsHelpBubble","value":false},{"index":368,"name":"LightningExperiencePreferred","value":false}],"networkId":""});
-	</script><div class="apexp"><div id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock" class="bPageBlock brandSecondaryBrd bDetailBlock secondaryPalette"><div class="pbBody">
+	
+    <div class="apexp"><div id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock" class="bPageBlock brandSecondaryBrd bDetailBlock secondaryPalette"><div class="pbBody">
 
 	<div class="hiddenClass" id="errorMessage"></div>
 	<div class="two-column-container">
 	<div class=" two-column" id="panelSection" title="Personal Information">
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:firstname">
-	First Name <span class="required" title="required field">*</span></label><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:firstname" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:firstname" class="focus" alt="first name input" title="first name" />
+	<div><label for="firstname">
+	First Name <span class="required" title="required field">*</span></label><input id="firstname" type="text" name="firstname" class="focus" alt="first name input" title="first name" />
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:lastname">
-	Last Name <span class="required" title="required field">*</span></label><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:lastname" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:lastname" alt="last name input" title="last name" />
+	<div><label for="lastname">
+	Last Name <span class="required" title="required field">*</span></label><input id="lastname" type="text" name="lastname" alt="last name input" title="last name" />
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:email" style="line-height:.5;">
+	<div><label for="email" style="line-height:.5;">
 	Email <span class="required" title="required field">*</span></label>
-	<span style="font-size:11px;font-weight:800;">USE AN EMAIL UNIQUE TO YOU; AVOID ADDRESSES SHARED BY YOUR FAMILY.</span><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:email" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:email" alt="password input" title="email" />
+	<span style="font-size:11px;font-weight:800;">USE AN EMAIL UNIQUE TO YOU; AVOID ADDRESSES SHARED BY YOUR FAMILY.</span><input id="email" type="text" name="email" alt="password input" title="email" />
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:mobilephone" style="line-height:.5;">
+	<div><label for="mobilephone" style="line-height:.5;">
 	Mobile Phone</label>
-	<span style="font-size:11px;font-weight:800;">NUMERIC VALUES ONLY UNLESS A NON-DOMESTIC NUMBER</span><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:mobilephone" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:mobilephone" alt="mobile phone number" title="phone number" />
+	<span style="font-size:11px;font-weight:800;">NUMERIC VALUES ONLY UNLESS A NON-DOMESTIC NUMBER</span><input id="mobilephone" type="text" name="mobilephone" alt="mobile phone number" title="phone number" />
 	</div>
 	</div>
-	<div id="us_yes_no"><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country">
-	Do you reside in the US? <span class="required" title="required field">*</span></label><fieldset style="border: none;"><legend>Select yes or no</legend><table role="presentation" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country" class="country">
+	<div id="us_yes_no"><label for="country">
+	Do you reside in the US? <span class="required" title="required field">*</span></label><fieldset style="border: none;"><legend>Select yes or no</legend><table role="presentation" id="country" class="country">
 	<tr>
 	<td>
-	<input type="radio" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country:0" value="YES" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country:0"> yes</label></td>
+	<input type="radio" name="country" id="country:0" value="YES" /><label for="country:0"> yes</label></td>
 	<td>
-	<input type="radio" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country:1" value="NO" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:country:1"> no</label></td>
+	<input type="radio" name="country" id="country:1" value="NO" /><label for="country:1"> no</label></td>
 	</tr>
 	</table></fieldset>
 	</div>
@@ -938,14 +1001,14 @@
 	<div class="countryChild hiddenClass" id="countryYes">
 	<div class="two-column-container">
 	<div class=" two-column">
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:address">
-	Address</label><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:address" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:address" alt="us address" title="address" />
+	<div><label for="address">
+	Address</label><input id="address" type="text" name="address" alt="us address" title="address" />
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:city">
-	City</label><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:city" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:city" class="countryYes" alt="city input" title="city" />
+	<div><label for="city">
+	City</label><input id="city" type="text" name="city" class="countryYes" alt="city input" title="city" />
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:state">
-	State or Territory</label><select id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:state" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:state" class="stateList" size="1">	<option value=""></option>
+	<div><label for="state">
+	State or Territory</label><select id="state" name="state" class="stateList" size="1">	<option value=""></option>
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -1001,27 +1064,27 @@
 	</select>
 
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:zipcode">
-	Zipcode</label><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:zipcode" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:zipcode" alt="zipcode input" title="zipcode" />
+	<div><label for="zipcode">
+	Zipcode</label><input id="zipcode" type="text" name="zipcode" alt="zipcode input" title="zipcode" />
 	</div>
 	</div>
 	</div>
 	</div>
-	<div class="countryChild hiddenClass" id="countryNo"><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:outsidecountry">
-	Country</label><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:outsidecountry" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:outsidecountry" class="countryNo" alt="country if outside us input" title="outside us country" />
+	<div class="countryChild hiddenClass" id="countryNo"><label for="outsidecountry">
+	Country</label><input id="outsidecountry" type="text" name="outsidecountry" class="countryNo" alt="country if outside us input" title="outside us country" />
 	</div>
 	<div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo">
+	<div><label for="hispanicYesOrNo">
 	Are you Hispanic or Latino?<span class="required" title="required field">*</span></label>
 	</div>
 	</div>
 	<div id="hispanicYesNo">
-	<div><fieldset style="border: none;"><legend>Select yes or no</legend><table role="presentation" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo" class="hispanicYesOrNo">
+	<div><fieldset style="border: none;"><legend>Select yes or no</legend><table role="presentation" id="hispanicYesOrNo" class="hispanicYesOrNo">
 	<tr>
 	<td>
-	<input type="radio" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo:0" value="YES" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo:0"> yes</label></td>
+	<input type="radio" name="hispanicYesOrNo" id="hispanicYesOrNo:0" value="YES" /><label for="hispanicYesOrNo:0"> yes</label></td>
 	<td>
-	<input type="radio" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo:1" value="NO" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:hispanicYesOrNo:1"> no</label></td>
+	<input type="radio" name="hispanicYesOrNo" id="hispanicYesOrNo:1" value="NO" /><label for="hispanicYesOrNo:1"> no</label></td>
 	</tr>
 	</table></fieldset>
 
@@ -1034,56 +1097,62 @@
 	</div>
 	</div>
 	<div id="race">
-	<div><fieldset style="border: none;"><legend>Select all that apply</legend><table role="presentation" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race">
+	<div><fieldset style="border: none;"><legend>Select all that apply</legend><table role="presentation" id="race">
 	<tr>
 	<td>
-	<input name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:0" value="americanIndian" type="checkbox" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:0"> American Indian/Alaskan Native</label></td>
+	<input name="race[]" id="race:0" value="americanIndian" type="checkbox" /><label for="race:0"> American Indian/Alaskan Native</label></td>
 	<td>
-	<input name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:1" value="asian" type="checkbox" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:1"> Asian</label></td>
+	<input name="race[]" id="race:1" value="asian" type="checkbox" /><label for="race:1"> Asian</label></td>
 	<td>
-	<input name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:2" value="africanAmerican" type="checkbox" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:2"> Black / African American</label></td>
+	<input name="race[]" id="race:2" value="africanAmerican" type="checkbox" /><label for="race:2"> Black / African American</label></td>
 	<td>
-	<input name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:3" value="nativeHawaiian" type="checkbox" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:3"> Native Hawaiian/Pacific Islander</label></td>
+	<input name="race[]" id="race:3" value="nativeHawaiian" type="checkbox" /><label for="race:3"> Native Hawaiian/Pacific Islander</label></td>
 	<td>
-	<input name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race" id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:4" value="white" type="checkbox" /><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:race:4"> White</label></td>
+	<input name="race[]" id="race:4" value="white" type="checkbox" /><label for="race:4"> White</label></td>
 	</tr>
 	</table></fieldset>
 	</div>
 	</div>
 	</div>
 	<div>
-	<div id="studenttype"><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:studentstatus">
-	What best describes your status as a student? <span class="required" title="required field">*</span></label><select id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:studentstatus" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:studentstatus" size="1">	<option value=""></option>
+    
+    
+    
+	<div id="studenttype"><label for="studentstatus">
+	What best describes your status as a student? <span class="required" title="required field">*</span></label><select id="studentstatus" name="studentstatus" size="1">	<option value=""></option>
 	<option value="FYU">High School Student</option>
 	<option value="TRU">Transfer Student</option>
 	<option value="RTU">Returning IUPUI Student</option>
 	<option value="ICU">IU Intercampus Transfer Student</option>
 	</select>
 	</div>
-	<div class="hiddenClass" id="highschoolcontain"><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:highSchool">
-	High School<span class="required" title="required field">*</span></label><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:highSchool" type="text" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:highSchool" class="countryNo" alt="input your high school if from the US" title="high school" />
+	<div class="hiddenClass" id="highschoolcontain"><label for="highSchool">
+	High School<span class="required" title="required field">*</span></label><input id="highSchool" type="text" name="highSchool" class="countryNo" alt="input your high school if from the US" title="high school" />
 	</div>
 	</div>
 	<div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:startdate">
-	Intended Start Term? <span class="required" title="required field">*</span></label><select id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:startdate" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:startdate" size="1">	<option value=""></option>
+	<div><label for="startDate">
+	Intended Start Term? <span class="required" title="required field">*</span></label><select id="startDate" name="startDate" size="1">					
+    <option value=""></option>
 	<option value="8">Fall (August)</option>
 	<option value="2">Spring (January)</option>
 	<option value="5">Summer Session I (May)</option>
 	<option value="5">Summer Session II (June)</option>
 	</select>
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:startyear">
-	Intended Start Year?<span class="required" title="required field">*</span></label><select id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:startyear" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:startyear" size="1">	<option value=""></option>
+	<div><label for="startYear">
+	Intended Start Year?<span class="required" title="required field">*</span></label><select id="startYear" name="startYear" size="1">	<option value=""></option>
 	<option value="2018">2018</option>
 	<option value="2019">2019</option>
 	<option value="2020">2020</option>
 	</select>
-	</div><input id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:termIDHidden" type="hidden" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:termIDHidden" />
+	</div>
+    <input id="termIDHidden" type="hidden" name="termIDHidden" />
 	</div>
 	<div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:majorList">
-	Proposed Major <span class="required" title="required field">*</span></label><select id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:majorList" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:majorList" class="majorList" size="1">	<option value=""></option>
+	<div><label for="majorList">
+	Proposed Major <span class="required" title="required field">*</span></label><select id="majorList" name="majorList" class="majorList" size="1">	
+    <option value=""></option>
 	<option value="UCOL1">Exploratory/Undecided</option>
 	<option value="UCBU1">Accounting</option>
 	<option value="UCLA1">Africana Studies</option>
@@ -1200,8 +1269,11 @@
 	<option value="UCTE1">Technical Communication</option>
 	<option value="UCTM1">Tourism, Conventions, &amp; Events Management</option>
 	<option value="UCHE1">Visual Communication Design</option>
-	</select><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:acadPlanHidden" class="hiddenClass">
-	Proposed Major Hidden Field</label><select id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:acadPlanHidden" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:acadPlanHidden" class="hiddenClass" size="1">	<option value=""></option>
+	</select>
+    
+    
+    <label for="acadPlanHidden" class="hiddenClass">
+	Proposed Major Hidden Field</label><select id="acadPlanHidden" name="acadPlanHidden" class="hiddenClass" size="1">	<option value=""></option>
 	<option value="EXPLRPR">Exploratory/Undecided</option>
 	<option value="ACTGBSBPR">Accounting</option>
 	<option value="AFRSTDBAPR">Africana Studies</option>
@@ -1245,7 +1317,7 @@
 	<option value="PEDESBSKPR">Exercise Science</option>
 	<option value="FINBSBPR">Finance</option>
 	<option value="FMPTBSKPR">Fitness Management &amp; Personal Training</option>
-	<option value="F&amp;ISBSPUPR">Forensic &amp; Investigative Sciences</option>
+	<option value="FISBSPUPR">Forensic &amp; Investigative Sciences</option>
 	<option value="FRENBAPR">French</option>
 	<option value="FNDSGPR">Furniture Design</option>
 	<option value="GENSTBGS1P">General Studies</option>
@@ -1320,10 +1392,15 @@
 	<option value="VISCOPR">Visual Communication Design</option>
 	</select>
 	</div>
-	<div><label for="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:specialNeeds">
-	Special Needs</label><textarea id="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:specialNeeds" name="EventRegistrationCampusTour:campusVisitForm:camputVisitPageBlock:specialNeeds" title="special needs"></textarea>
+	<div><label for="specialNeeds">
+	Special Needs</label><textarea id="specialNeeds" name="specialNeeds" title="special needs"></textarea>
 	</div>
 	</div></div><div class="pbFooter secondaryPalette"><div class="bg"></div></div></div></div>
+
+
+
+	
+
 
 	<br />
 	<br />
@@ -1335,37 +1412,37 @@
     <?php
 	
 		//code for dates input
-		echo "<ul id='event_selected'>";
-		echo "<li id='event_selected_default>";
-		echo "<input name='availableEvents' type='radio' />Please select a value";
-		echo "</li>";
+		echo "<ul id='event_selected'>" . "<br />\n";
+		echo "<li id='event_selected_default'>" . "<br />\n";
+		echo "<input name='availableEvents' type='radio' />Please select a value" . "<br />\n";
+		echo "</li>" . "<br />\n";
 	
 		foreach ( $campaign_children as $cc){
-			print_r($cc);
-			echo "<li id='event_selected_default'>";
-				echo "<label for='" + $cc['Id'] + "' class='availableEvents'> Available Events Hidden Label</label>";
-				echo "<input id='" + $cc['Id'] + "' data-capacity='" + $cc['Event_Capacity__c'] +"' data-date='" + $cc['StartDate'] +"' data-enddate='" + $cc['EndDate'] +"' data-endtime='" + $cc['End_Time__c'] +"' data-id='" + $cc['Id'] +"' data-name='" + $cc['Name'] +"' data-registrationstartdate='" + $cc['Registration_Start_Date__c'] +"' data-spacesleft='" + $cc['Event_Spaces_Left__c'] +"' data-status='" + $cc['Status'] +"' data-time='" + $cc['Start_Time__c'] +"' name='availableEvents' type='radio' value='" +  +"' />";
 			
-				echo "<span style='font-weight: 800;'>Name: </span>" + $cc['Name'] + "<br />";
-				echo "<span style='font-weight: 800;'>Registration: </span>" + $cc['Registration_Start_Date__c'] + "<br />";
-				echo "<span style='font-weight: 800;'>Capacity: </span>" + $cc['Event_Capacity__c'] + "<br />";
-				echo "<span style='font-weight: 800;'>Spaces Left: </span>" + $cc['Event_Spaces_Left__c'] + "<br />";
-				echo "<span style='font-weight: 800;'>Start Date: </span>" + $cc['StartDate'] + "<br />";
-				echo "<span style='font-weight: 800;'>End Date: </span>" + $cc['EndDate'] + "<br />";
-				echo "<span style='font-weight: 800;'>Start Time: </span>" + $cc['Start_Time__c'] + "<br />";
-				echo "<span style='font-weight: 800;'>Status: </span>" + $cc['Status'] + "<br />";
-				echo "<span style='font-weight: 800;'>End Time: </span>" + $cc['End_Time__c'] ;
-			echo "</li>";
+			echo "<li>" . "<br />\n";
+				echo "<label for='" . $cc['Id'] . "' class='availableEvents'> Available Events Hidden Label</label>" . "<br />\n";
+				echo "<input id='" . $cc['Id'] . "' data-capacity='" . $cc['Event_Capacity__c'] ."' data-date='" . $cc['StartDate'] ."' data-enddate='" . $cc['EndDate'] ."' data-endtime='" . $cc['End_Time__c'] ."' data-id='" . $cc['Id'] ."' data-name='" . $cc['Name'] ."' data-registrationstartdate='" . $cc['Registration_Start_Date__c'] ."' data-spacesleft='" . $cc['Event_Spaces_Left__c'] ."' data-status='" . $cc['Status'] ."' data-time='" . $cc['Start_Time__c'] ."' name='availableEvents' type='radio' value='" . $cc['Id'] ."' />" . "<br />\n";
+			
+				echo "<span style='font-weight: 800;'>Name: </span>" . $cc['Name'] . "<br />\n";
+				echo "<span style='font-weight: 800;'>Registration: </span>" . $cc['Registration_Start_Date__c'] . "<br />\n";
+				echo "<span style='font-weight: 800;'>Capacity: </span>" . $cc['Event_Capacity__c'] . "<br />\n";
+				echo "<span style='font-weight: 800;'>Spaces Left: </span>" . $cc['Event_Spaces_Left__c'] . "<br />\n";
+				echo "<span style='font-weight: 800;'>Start Date: </span>" . $cc['StartDate'] . "<br />\n";
+				echo "<span style='font-weight: 800;'>End Date: </span>" . $cc['EndDate'] . "<br />\n";
+				echo "<span style='font-weight: 800;'>Start Time: </span>" . $cc['Start_Time__c'] . "<br />\n";
+				echo "<span style='font-weight: 800;'>Status: </span>" . $cc['Status'] . "<br />" . "<br />\n";
+				echo "<span style='font-weight: 800;'>End Time: </span>" . $cc['End_Time__c'] . "<br />\n";
+			echo "</li>" . "<br />";
 	
 		}
 	
-		echo "</ul>";
+		echo "</ul>" . "<br />\n";
 		echo "<input id=\"eventIDHidden\" type=\"hidden\" name=\"eventIDHidden\" />";
 	
 	?>
     
     
-    <input id="EventRegistrationCampusTour:campusVisitForm:eventIDHidden" type="hidden" name="EventRegistrationCampusTour:campusVisitForm:eventIDHidden" />
+    <input id="eventIDHidden" type="hidden" name="eventIDHidden" />
 
 
 	<div id="calendar_label"></div>
@@ -1421,8 +1498,8 @@
 	<option></option>
 	</select>
 
-	<div class="numberOfGuestsContain"><label for="EventRegistrationCampusTour:campusVisitForm:numberOfGuests">
-	Number of Guests <span class="required" title="required field">*</span></label><select id="EventRegistrationCampusTour:campusVisitForm:numberOfGuests" name="EventRegistrationCampusTour:campusVisitForm:numberOfGuests" class="numberOfGuests" size="1">	<option value=""></option>
+	<div class="numberOfGuestsContain"><label for="numberOfGuests">
+	Number of Guests <span class="required" title="required field">*</span></label><select id="numberOfGuests" name="numberOfGuests" class="numberOfGuests" size="1">	<option value=""></option>
 	<option value="0">0</option>
 	<option value="1">1</option>
 	<option value="2">2</option>
@@ -1442,11 +1519,6 @@
 	</div><input type="submit" name="EventRegistrationCampusTour:campusVisitForm:j_id95" value="Submit" /><div id="EventRegistrationCampusTour:campusVisitForm:j_id97"></div>
 	</form>
     
-    <!-- DELETE IF NOT NEEDED IN PROD
-    <span id="ajax-view-state-page-container" style="display: none"><span id="ajax-view-state" style="display: none"><input type="hidden"  id="com.salesforce.visualforce.ViewState" name="com.salesforce.visualforce.ViewState" value="i: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" /><input type="hidden"  id="com.salesforce.visualforce.ViewStateVersion" name="com.salesforce.visualforce.ViewStateVersion" value="201706282200410518" /><input type="hidden"  id="com.salesforce.visualforce.ViewStateMAC" name="com.salesforce.visualforce.ViewStateMAC" value="AGV5SnViMjVqWlNJNkltNW9NWGhKZEhSUFdqWXhkalZaZEdKUGRVZDZXR1pZV2pWc2MzWnZkV05GT1RaSlJYZHBOMkZUWkRoY2RUQXdNMlFpTENKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUlzSW10cFpDSTZJbnRjSW5SY0lqcGNJakF3UkRCeE1EQXdNREF3TUZORWQxd2lMRndpZGx3aU9sd2lNREF3TURBd01EQXdNREF3TURBd1hDSXNYQ0poWENJNlhDSjJabk5wWjI1cGJtZHJaWGxjSWl4Y0luVmNJanBjSWpBd05UQnhNREF3TURBd1VtMHhhRndpZlNJc0ltTnlhWFFpT2xzaWFXRjBJbDBzSW1saGRDSTZNVFE1T1RBek16QTVOemN5TXl3aVpYaHdJam93ZlE9PS4uN0ZHTGN4X2hzY1NtV2pfZTQwNUJQR29YUU9FcWhLUDFkOGZUc0pkRk1NMD0=" /></span></span>
-    -->
-
-
 
 	</div>
 
@@ -1474,328 +1546,330 @@
 	<script type="text/javascript">
 
 		// select-multiple is a dynamic field that is added on calendar selected
-		$(document).on("change", ".select-multiple", function(){
-		var id_of_selected = $(this).val();
+		$(document).on("change", ".select-multiple", function() {
+    var id_of_selected = $(this).val();
 
-		$("[name=availableEvents][value='" + id_of_selected + "'").prop('checked', true);
-		$('[id*="eventIDHidden"]').val(id_of_selected);
-		});
+    $("[name=availableEvents][value='" + id_of_selected + "'").prop('checked', true);
+    $('[id*="eventIDHidden"]').val(id_of_selected);
+});
 
-		$( document ).ready(function() {
+$(document).ready(function() {
 
-		$('.select-multiple-paragraph').hide();
-		$('.numberOfGuestsContain').hide();
-		$('#select-date-time').hide();
+    $('.select-multiple-paragraph').hide();
+    $('.numberOfGuestsContain').hide();
+    $('#select-date-time').hide();
 
-		var obj_label_to_replace = $('#calendar_label');
+    var obj_label_to_replace = $('#calendar_label');
 
-		//$("<div class=\"oneField \"><div class=\"inputWrapper custom-inputWrapper\"><input class=\"date-selected\" placeholder=\"Select your tour date by clicking here\" id=\"date-selected\" placeholder default=\"Select Date\" style=\"display:block;\"></div></div>").insertBefore(obj_label_to_replace);
+    //creat variable with the name of the radio button group
+    var radioGroupName = "availableEvents",
+        radioGroupByName = $("[name*='" + radioGroupName + "']"),
+        dataEventArray = [],
+        dataDates = [],
+        dataEventClosedArray = [],
+        dataDatesClosed = [],
+        months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+        ];
 
-		//place stuff after the newly created date-selected
-		//$("<div class=\"keyMap\"><p>Select a date by clicking the field below</p><div class=\"keyMapSingleContainer\"><div class=\"keyMapSingle keyMapSingleRegularSingle\"></div><span>Single Event</span></div><div class=\"keyMapSingleContainer\"><div class=\"keyMapSingle keyMapSingleRegularMultiple\"></div><span>Multiple Events</span></div><div class=\"keyMapSingleContainer\"><div class=\"keyMapSingle keyMapSingleClosed\"></div><span>Tour Is Full</span></div></div>").insertBefore('.date-selected');
+    //find radio with field that contains
+    radioGroupByName.attr('name', radioGroupName);
 
-
-
-		//creat variable with the name of the radio button group
-		var radioGroupName = "availableEvents",
-		radioGroupByName = $("[name*='" + radioGroupName + "']"),
-		dataEventArray = [],
-		dataDates = [],
-		dataEventClosedArray = [],
-		dataDatesClosed = [],
-		months = [
-		"Jan",
-		"Feb",
-		"Mar",
-		"Apr",
-		"May",
-		"Jun",
-		"Jul",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Nov",
-		"Dec"
-		];
-
-		//find radio with field that contains
-		radioGroupByName.attr('name', radioGroupName);
-
-		//loop through radioGroupByName and get data-date
-		radioGroupByName.each(function(){
-		if( $(this).data("id") != undefined ){
-		var dateVar = $(this).data("date"),
-		dateVar = dateVar.replace(" GMT ", " "),
-		dateVarToDate = new Date(dateVar),
-		day = dateVarToDate.getDate(),
-		month,
-		year = dateVarToDate.getFullYear(),
-		month_not_found = 0;
+    //loop through radioGroupByName and get data-date
+    radioGroupByName.each(function() {
+        if ($(this).data("id") != undefined) {
+            var dateVar = $(this).data("date"),
+				dateParsed = parseDate(dateVar),
+                dateVar = dateVar.replace(" GMT ", " "),
+                dateVarToDate = new Date(dateVar),
+                day = dateParsed.getDate(),
+                month = dateParsed.getMonth() + 1,
+                year = dateParsed.getFullYear(),
+                month_not_found = 0;
 
 
-		for( var i = 0; i < months.length; i++){
-		var indexed = dateVar.indexOf( months[i] );
-		if(indexed > -1){
-		month_not_found++;
-		month = i + 1;
-		}
-		}
-
-		if(month_not_found == 0){
-		console.log("month not valid or not found");
-		}
-
-		if (month < 10){
-		month = "0" + month.toString();
-		}else{
-		month = month.toString();
-		}
-		if(day < 10){
-		day = "0" + day.toString();
-		}else{
-		day = day.toString();
-		}
-		year = year.toString();
-
-
-		if($(this).data("spacesleft") > 0 && $(this).data("status") == "Registration Open"){
-
-		dataDates.push(month + "-" + day + "-" + year);
-
-		dataEventArray.push({
-		id: $(this).data("id"),
-		data: {
-		name: $(this).data("name"),
-		registrationStartDate: $(this).data("registrationstartdate"),
-		capacity: $(this).data("capacity"),
-		spacesLeft: $(this).data("spacesleft"),
-		date: month + "-" + day + "-" + year,
-		endDate: $(this).data("enddate"),
-		time: $(this).data("time"),
-		endTime: $(this).data("endtime")
-		}
-		});
-
-		}else{
-
-		dataDatesClosed.push(month.toString() + "-" + day.toString() + "-" + year.toString());
-
-		dataEventClosedArray.push({
-		id: $(this).data("id"),
-		data: {
-		name: $(this).data("name"),
-		registrationStartDate: $(this).data("registrationstartdate"),
-		capacity: $(this).data("capacity"),
-		spacesLeft: $(this).data("spacesleft"),
-		date: month + "-" + day + "-" + year,
-		endDate: $(this).data("enddate"),
-		time: $(this).data("time"),
-		endTime: $(this).data("endtime")
-		}
-		});
-
-		}
-		}
-		});
-
-
-
-		//define calendar
-		if( $(window).innerWidth() > 800 ){
-			$('#date-selected').datepicker({
-			    onSelect: function(dateStuff) {
-
-			        var select_ion = [],
-			            dateStuffReplaced = dateStuff.replace(/\//g, "-"),
-			            indexNumbers = [],
-			            i = 0,
-			            amount_of_dates = 0;
-
-			        amount_of_dates = countInArray(dataDates, dateStuffReplaced);
-			        // indexNumbers.push( dataDates.indexOf( dateStuffReplaced ) );
-
-			        while (i < dataDates.length) {
-			            //if the current dataDates is in array - record i (which is the index)
-			            if (dataDates[i] == dateStuffReplaced) {
-			                indexNumbers.push(i);
-			            }
-			            i++;
-			        }
-
-
-			        // i now will have an array of indexes where selected date is
-
-			        if (indexNumbers.length > 0) {
-
-
-			            $('.select-multiple-paragraph').show();
-			            $('.numberOfGuestsContain').show();
-			            $('[id*="select-date-time"]').show();
-			            $('[id*="date-selected"]').show()
-			            $('.select-multiple option').remove();
-			            // $('.select-multiple-paragraph').remove();
-			            // $("<p class=\"select-multiple-paragraph\" name=\"timeSelected\">Select a time</p><select id=\"select-date-time\" class=\"select-multiple\">").insertAfter('.date-selected');
-
-			            $('<option />', {
-			                value: "",
-			                text: " "
-			            }).appendTo('.select-multiple');
-
-			            $.each(indexNumbers, function(index, el) {
-			                $('<option />', {
-			                    value: dataEventArray[el]['id'],
-			                    text: dataEventArray[el]['data']['time']
-			                }).appendTo('.select-multiple');
-			            });
-
-			        }
-
-			        // uses code from above page.
-
-
-
-			    },
-			    beforeShowDay: function(date) {
-			        var string = jQuery.datepicker.formatDate('mm-dd-yy', date),
-			            string_slash = string.replace(/-/g, "/"),
-			            amount_of_dates = 0;
-
-			        // see if there are duplicate values
-			        amount_of_dates = countInArray(dataDates, string);
-
-			        // see if there are closed values
-			        amount_of_closed_dates = countInArray(dataDatesClosed, string);
-
-
-
-			        // return a date if there is one - place into calendar
-			        if (amount_of_dates > 1) {
-			            return [dataDates.indexOf(string) > -1, "regularUIDatesMultiple", "Multiple Dates - Select time below"];
-			        } else if (amount_of_dates == 1) {
-			            return [dataDates.indexOf(string) > -1, "regularUIDatesSingle", "Single Date - Select time below"];
-			        } else {
-
-			            // if date is closed
-			            if (amount_of_closed_dates > 0) {
-			                return [false, "closedUIDates", "Event Full - No time to select"];
-			            } else {
-			                return [false];
-			            }
-			        }
-			    }
-			});
-
-			function countInArray(array, what) {
-			    var count = 0;
-			    for (var i = 0; i < array.length; i++) {
-			        if (array[i] === what) {
-			            count++;
-			        }
-			    }
-			    return count;
+			function parseDate(input) {
+			  var parts = input.match(/(\d+)/g);
+			  // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+			  return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
 			}
-		//end window size greater than 800
-		}else{
-			$('#date-selected').hide();
-			$('#date-selected-container').datepicker({
-			    onSelect: function(dateStuff) {
+			
+            for (var i = 0; i < months.length; i++) {
+                var indexed = dateVar.indexOf(months[i]);
+                if (indexed > -1) {
+                    month_not_found++;
+                    month = i + 1;
+                }
+            }
 
-			        var select_ion = [],
-			            dateStuffReplaced = dateStuff.replace(/\//g, "-"),
-			            indexNumbers = [],
-			            i = 0,
-			            amount_of_dates = 0;
+            if (month_not_found == 0) {
+                console.log("month not valid or not found");
+            }
 
-			        // console.log(dateStuff);
-			        $('#date-selected').val( dateStuff );
-
-			        amount_of_dates = countInArray(dataDates, dateStuffReplaced);
-			        // indexNumbers.push( dataDates.indexOf( dateStuffReplaced ) );
-
-			        while (i < dataDates.length) {
-			            //if the current dataDates is in array - record i (which is the index)
-			            if (dataDates[i] == dateStuffReplaced) {
-			                indexNumbers.push(i);
-			            }
-			            i++;
-			        }
-
-
-			        // i now will have an array of indexes where selected date is
-
-			        if (indexNumbers.length > 0) {
+            if (month < 10) {
+                month = "0" + month.toString();
+            } else if( month == 0) {
+				console.log
+            } else {
+                month = month.toString();
+            }
+            if (day < 10) {
+                day = "0" + day.toString();
+            } else {
+                day = day.toString();
+            }
+            year = year.toString();
 
 
-			            $('.select-multiple-paragraph').show();
-			            $('.numberOfGuestsContain').show();
-			            $('[id*="select-date-time"]').show();
-			            $('[id*="date-selected"]').show()
-			            $('.select-multiple option').remove();
-			            // $('.select-multiple-paragraph').remove();
-			            // $("<p class=\"select-multiple-paragraph\" name=\"timeSelected\">Select a time</p><select id=\"select-date-time\" class=\"select-multiple\">").insertAfter('.date-selected');
+            if ($(this).data("spacesleft") > 0 && $(this).data("status") == "Registration Open") {
 
-			            $('<option />', {
-			                value: "",
-			                text: " "
-			            }).appendTo('.select-multiple');
+                dataDates.push(month + "-" + day + "-" + year);
 
-			            $.each(indexNumbers, function(index, el) {
-			                $('<option />', {
-			                    value: dataEventArray[el]['id'],
-			                    text: dataEventArray[el]['data']['time']
-			                }).appendTo('.select-multiple');
-			            });
+                dataEventArray.push({
+                    id: $(this).data("id"),
+                    data: {
+                        name: $(this).data("name"),
+                        registrationStartDate: $(this).data("registrationstartdate"),
+                        capacity: $(this).data("capacity"),
+                        spacesLeft: $(this).data("spacesleft"),
+                        date: month + "-" + day + "-" + year,
+                        endDate: $(this).data("enddate"),
+                        time: $(this).data("time"),
+                        endTime: $(this).data("endtime")
+                    }
+                });
 
-			        }
+            } else {
 
-			        // uses code from above page.
+                dataDatesClosed.push(month.toString() + "-" + day.toString() + "-" + year.toString());
 
+                dataEventClosedArray.push({
+                    id: $(this).data("id"),
+                    data: {
+                        name: $(this).data("name"),
+                        registrationStartDate: $(this).data("registrationstartdate"),
+                        capacity: $(this).data("capacity"),
+                        spacesLeft: $(this).data("spacesleft"),
+                        date: month + "-" + day + "-" + year,
+                        endDate: $(this).data("enddate"),
+                        time: $(this).data("time"),
+                        endTime: $(this).data("endtime")
+                    }
+                });
 
-
-			    },
-			    beforeShowDay: function(date) {
-			        var string = jQuery.datepicker.formatDate('mm-dd-yy', date),
-			            string_slash = string.replace(/-/g, "/"),
-			            amount_of_dates = 0;
-
-			        // see if there are duplicate values
-			        amount_of_dates = countInArray(dataDates, string);
-
-			        // see if there are closed values
-			        amount_of_closed_dates = countInArray(dataDatesClosed, string);
+            }
+        }
+    });
 
 
 
-			        // return a date if there is one - place into calendar
-			        if (amount_of_dates > 1) {
-			            return [dataDates.indexOf(string) > -1, "regularUIDatesMultiple", "Multiple Dates - Select time below"];
-			        } else if (amount_of_dates == 1) {
-			            return [dataDates.indexOf(string) > -1, "regularUIDatesSingle", "Single Date - Select time below"];
-			        } else {
+    //define calendar
+    if ($(window).innerWidth() > 800) {
+        $('#date-selected').datepicker({
+            onSelect: function(dateStuff) {
 
-			            // if date is closed
-			            if (amount_of_closed_dates > 0) {
-			                return [false, "closedUIDates", "Event Full - No time to select"];
-			            } else {
-			                return [false];
-			            }
-			        }
-			    }
-			});
+                var select_ion = [],
+                    dateStuffReplaced = dateStuff.replace(/\//g, "-"),
+                    indexNumbers = [],
+                    i = 0,
+                    amount_of_dates = 0;
 
-			function countInArray(array, what) {
-			    var count = 0;
-			    for (var i = 0; i < array.length; i++) {
-			        if (array[i] === what) {
-			            count++;
-			        }
-			    }
-			    return count;
-			}
-		}//end of less than 800 window width
+                amount_of_dates = countInArray(dataDates, dateStuffReplaced);
+                // indexNumbers.push( dataDates.indexOf( dateStuffReplaced ) );
+
+                while (i < dataDates.length) {
+                    //if the current dataDates is in array - record i (which is the index)
+                    if (dataDates[i] == dateStuffReplaced) {
+                        indexNumbers.push(i);
+                    }
+                    i++;
+                }
 
 
-		});//end window load
+                // i now will have an array of indexes where selected date is
+
+                if (indexNumbers.length > 0) {
+
+
+                    $('.select-multiple-paragraph').show();
+                    $('.numberOfGuestsContain').show();
+                    $('[id*="select-date-time"]').show();
+                    $('[id*="date-selected"]').show()
+                    $('.select-multiple option').remove();
+                    // $('.select-multiple-paragraph').remove();
+                    // $("<p class=\"select-multiple-paragraph\" name=\"timeSelected\">Select a time</p><select id=\"select-date-time\" class=\"select-multiple\">").insertAfter('.date-selected');
+
+                    $('<option />', {
+                        value: "",
+                        text: " "
+                    }).appendTo('.select-multiple');
+
+                    $.each(indexNumbers, function(index, el) {
+                        $('<option />', {
+                            value: dataEventArray[el]['id'],
+                            text: dataEventArray[el]['data']['time']
+                        }).appendTo('.select-multiple');
+                    });
+
+                }
+
+                // uses code from above page.
+
+
+
+            },
+            beforeShowDay: function(date) {
+                var string = jQuery.datepicker.formatDate('mm-dd-yy', date),
+                    string_slash = string.replace(/-/g, "/"),
+                    amount_of_dates = 0;
+
+                // see if there are duplicate values
+                amount_of_dates = countInArray(dataDates, string);
+
+                // see if there are closed values
+                amount_of_closed_dates = countInArray(dataDatesClosed, string);
+
+
+
+                // return a date if there is one - place into calendar
+                if (amount_of_dates > 1) {
+                    return [dataDates.indexOf(string) > -1, "regularUIDatesMultiple", "Multiple Dates - Select time below"];
+                } else if (amount_of_dates == 1) {
+                    return [dataDates.indexOf(string) > -1, "regularUIDatesSingle", "Single Date - Select time below"];
+                } else {
+
+                    // if date is closed
+                    if (amount_of_closed_dates > 0) {
+                        return [false, "closedUIDates", "Event Full - No time to select"];
+                    } else {
+                        return [false];
+                    }
+                }
+            }
+        });
+
+        function countInArray(array, what) {
+            var count = 0;
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] === what) {
+                    count++;
+                }
+            }
+            return count;
+        }
+        //end window size greater than 800
+    } else {
+        $('#date-selected').hide();
+        $('#date-selected-container').datepicker({
+            onSelect: function(dateStuff) {
+
+                var select_ion = [],
+                    dateStuffReplaced = dateStuff.replace(/\//g, "-"),
+                    indexNumbers = [],
+                    i = 0,
+                    amount_of_dates = 0;
+
+                // console.log(dateStuff);
+                $('#date-selected').val(dateStuff);
+
+                amount_of_dates = countInArray(dataDates, dateStuffReplaced);
+                // indexNumbers.push( dataDates.indexOf( dateStuffReplaced ) );
+
+                while (i < dataDates.length) {
+                    //if the current dataDates is in array - record i (which is the index)
+                    if (dataDates[i] == dateStuffReplaced) {
+                        indexNumbers.push(i);
+                    }
+                    i++;
+                }
+
+
+                // i now will have an array of indexes where selected date is
+
+                if (indexNumbers.length > 0) {
+
+
+                    $('.select-multiple-paragraph').show();
+                    $('.numberOfGuestsContain').show();
+                    $('[id*="select-date-time"]').show();
+                    $('[id*="date-selected"]').show()
+                    $('.select-multiple option').remove();
+                    // $('.select-multiple-paragraph').remove();
+                    // $("<p class=\"select-multiple-paragraph\" name=\"timeSelected\">Select a time</p><select id=\"select-date-time\" class=\"select-multiple\">").insertAfter('.date-selected');
+
+                    $('<option />', {
+                        value: "",
+                        text: " "
+                    }).appendTo('.select-multiple');
+
+                    $.each(indexNumbers, function(index, el) {
+                        $('<option />', {
+                            value: dataEventArray[el]['id'],
+                            text: dataEventArray[el]['data']['time']
+                        }).appendTo('.select-multiple');
+                    });
+
+                }
+
+                // uses code from above page.
+
+
+
+            },
+            beforeShowDay: function(date) {
+                var string = jQuery.datepicker.formatDate('mm-dd-yy', date),
+                    string_slash = string.replace(/-/g, "/"),
+                    amount_of_dates = 0;
+
+                // see if there are duplicate values
+                amount_of_dates = countInArray(dataDates, string);
+
+                // see if there are closed values
+                amount_of_closed_dates = countInArray(dataDatesClosed, string);
+
+
+
+                // return a date if there is one - place into calendar
+                if (amount_of_dates > 1) {
+                    return [dataDates.indexOf(string) > -1, "regularUIDatesMultiple", "Multiple Dates - Select time below"];
+                } else if (amount_of_dates == 1) {
+                    return [dataDates.indexOf(string) > -1, "regularUIDatesSingle", "Single Date - Select time below"];
+                } else {
+
+                    // if date is closed
+                    if (amount_of_closed_dates > 0) {
+                        return [false, "closedUIDates", "Event Full - No time to select"];
+                    } else {
+                        return [false];
+                    }
+                }
+            }
+        });
+
+        function countInArray(array, what) {
+            var count = 0;
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] === what) {
+                    count++;
+                }
+            }
+            return count;
+        }
+    } //end of less than 800 window width
+
+
+}); //end window load
 
 	</script>
 </body></html>
