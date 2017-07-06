@@ -50,4 +50,5 @@
 	$_SESSION['instance_url'] = $instance_url;
 
 	header( 'Location: demo_rest.php' ) ;
+	
 ?>

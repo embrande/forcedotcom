@@ -18,7 +18,7 @@
                     where ParentId = $parent_id
                     and StartDate = NEXT_N_DAYS:365";
         $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
-        $return_values = [];
+        $return_values = array();
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
@@ -34,7 +34,7 @@
         $total_size = $response['totalSize'];
 
         foreach ((array) $response['records'] as $record) {
-            $array_inner = [];
+            $array_inner = array();
             $array_inner['Id'] = $record['Id'];
             $array_inner['Name'] = $record['Name'];
             $array_inner['Registration_Start_Date__c'] = $record['Registration_Start_Date__c'];
@@ -200,5 +200,5 @@
 ?>
 
 <?php
-    require_once 'index.php';
+    require_once 'content.php';
 ?>
