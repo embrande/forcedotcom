@@ -17,7 +17,7 @@
                     from Campaign 
                     where ParentId = $parent_id
                     and StartDate = NEXT_N_DAYS:365";
-        $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
+        $url = "$instance_url/services/data/v39.0/query?q=" . urlencode($query);
         $return_values = [];
 
         $curl = curl_init($url);
@@ -115,10 +115,27 @@
         return $id;
     }
 
-    function find_account($first_name, $last_name, $email){
-
+    function find_account($first_name, $last_name, $email, $campaignID){
+        $query = "$instance_url/services/data/v39.0/query/?q=Select id, LastName, FirstName from Contact where FirstName = '" + $first_name + "' and LastName = '" + $last_name + "' and Email = '" + $email + "'";
         //get account based on 
 
+        $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+                array("Authorization: OAuth $access_token"));
+
+        $json_response = curl_exec($curl);
+        curl_close($curl);
+
+        $response = json_decode($json_response, true);
+
+        // if $response['totalSize'] > 0  -> create new opportunity for contact and add to campaignID if not already added to it
+
+        // if $response['totalSize'] == 0 -> create new contact, opportunity and add to campaignID
+ 
     }
 
     function show_account($id, $instance_url, $access_token) {
