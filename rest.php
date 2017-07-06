@@ -1,8 +1,7 @@
 <?php
     session_start();
 
-    function show_campaigns($instance_url, $parent_id){
-		echo $parent_id;
+    function show_campaigns($instance_url, $parent_id, $access_token){
         $query = "SELECT 
                         Status,
                         StartDate, 
@@ -15,11 +14,11 @@
                         Name, 
                         ID  
                     from Campaign 
-                    where ParentId = $parent_id
+                    where ParentId = '$parent_id'
                     and StartDate = NEXT_N_DAYS:365";
-        $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
+        $url = "$instance_url/services/data/v29.0/query?q=" . urlencode($query);
         $return_values = array();
-
+	
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -30,10 +29,11 @@
         curl_close($curl);
 
         $response = json_decode($json_response, true);
-
+		
         $total_size = $response['totalSize'];
 
         foreach ((array) $response['records'] as $record) {
+			
             $array_inner = array();
             $array_inner['Id'] = $record['Id'];
             $array_inner['Name'] = $record['Name'];
@@ -48,9 +48,7 @@
             
             array_push( $return_values,  $array_inner );
         }
-        
 
-		echo $return_values;
         return json_encode( $return_values );
 
 

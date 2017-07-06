@@ -3,7 +3,7 @@
 	$page_load = 0;
 	$page_success;
 	
-
+	
     $access_token = $_SESSION['access_token'];
     $instance_url = $_SESSION['instance_url'];
 
@@ -17,7 +17,7 @@
 
     // get all child accounts of parent $id - then loop through it below like before (will need to delete events)
     if($page_load == 0){
-    	$campaign_children = show_campaigns($instance_url, $id);
+    	$campaign_children = show_campaigns($instance_url, $_SESSION['parentID'], $access_token);
     	$campaign_children = json_decode( $campaign_children, true );
     }
 
@@ -1341,7 +1341,7 @@
 		echo "</li>";
 	
 		foreach ( $campaign_children as $cc){
-	
+			print_r($cc);
 			echo "<li id='event_selected_default'>";
 				echo "<label for='" + $cc['Id'] + "' class='availableEvents'> Available Events Hidden Label</label>";
 				echo "<input id='" + $cc['Id'] + "' data-capacity='" + $cc['Event_Capacity__c'] +"' data-date='" + $cc['StartDate'] +"' data-enddate='" + $cc['EndDate'] +"' data-endtime='" + $cc['End_Time__c'] +"' data-id='" + $cc['Id'] +"' data-name='" + $cc['Name'] +"' data-registrationstartdate='" + $cc['Registration_Start_Date__c'] +"' data-spacesleft='" + $cc['Event_Spaces_Left__c'] +"' data-status='" + $cc['Status'] +"' data-time='" + $cc['Start_Time__c'] +"' name='availableEvents' type='radio' value='" +  +"' />";
