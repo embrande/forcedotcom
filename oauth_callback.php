@@ -49,5 +49,6 @@
 	$_SESSION['access_token'] = $access_token;
 	$_SESSION['instance_url'] = $instance_url;
 
-	header( 'Location: demo_rest.php' ) ;
+	header( 'Location: rest.php' ) ;
+	
 ?>
