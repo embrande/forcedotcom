@@ -1,8 +1,8 @@
 <?php
     session_start();
 
-    function show_campaigns($parent_id){
-
+    function show_campaigns($instance_url, $parent_id){
+        echo $instance_url;
         $query = "SELECT 
                         Status,
                         StartDate, 
@@ -16,8 +16,9 @@
                         ID  
                     from Campaign 
                     where ParentId = $parent_id
-                    and Status = 'Registration Open'";
-        $url = "$instance_url/services/data/v20.0/query" . urlencode($query);
+                    and StartDate = NEXT_N_DAYS:365";
+        $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
+        $return_values = [];
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
@@ -32,14 +33,25 @@
 
         $total_size = $response['totalSize'];
 
-        echo "$total_size record(s) returned<br/><br/>";
         foreach ((array) $response['records'] as $record) {
-            echo $record['Id'] . ", " . $record['Name'] . "<br/>";
+            $array_inner = [];
+            $array_inner['Id'] = $record['Id'];
+            $array_inner['Name'] = $record['Name'];
+            $array_inner['Registration_Start_Date__c'] = $record['Registration_Start_Date__c'];
+            $array_inner['Event_Capacity__c'] = $record['Event_Capacity__c'];
+            $array_inner['Event_Spaces_Left__c'] = $record['Event_Spaces_Left__c'];
+            $array_inner['StartDate'] = $record['StartDate'];
+            $array_inner['EndDate'] = $record['EndDate'];
+            $array_inner['Start_Time__c'] = $record['Start_Time__c'];
+            $array_inner['End_Time__c'] = $record['End_Time__c'];
+            $array_inner['Status'] = $record['Status'];
+            
+            array_push( $return_values,  $array_inner );
         }
-        echo "<br/>";
+        
 
 
-        return $return_values;
+        return json_encode( $return_values );
 
 
     }
@@ -101,6 +113,12 @@
         echo "New record id $id<br/><br/>";
 
         return $id;
+    }
+
+    function find_account($first_name, $last_name, $email){
+
+        //get account based on 
+
     }
 
     function show_account($id, $instance_url, $access_token) {

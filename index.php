@@ -6,18 +6,51 @@
     $access_token = $_SESSION['access_token'];
     $instance_url = $_SESSION['instance_url'];
 
-    // if (!isset($access_token) || $access_token == "") {
-    //     die("Error - access token missing from session!");
-    // }
+    if (!isset($access_token) || $access_token == "") {
+        die("Error - access token missing from session!");
+    }
 
-    // if (!isset($instance_url) || $instance_url == "") {
-    //     die("Error - instance URL missing from session!");
-    // }
+    if (!isset($instance_url) || $instance_url == "") {
+        die("Error - instance URL missing from session!");
+    }
 
     // get all child accounts of parent $id - then loop through it below like before (will need to delete events)
-    // if($page_load = 0){
-    	// $campaign_children = show_campaigns($id);
-    // }
+    if($page_load == 0){
+    	$campaign_children = show_campaigns($instance_url, $id);
+    	$campaign_children = json_decode( $campaign_children, true );
+    }
+
+    //code for dates input
+    echo "<ul id='event_selected'>";
+    echo "<li id='event_selected_default>";
+    echo "<input name='availableEvents' type='radio' />Please select a value";
+    echo "</li>";
+
+    foreach ( $campaign_children as $cc){
+
+    	echo "<li id='event_selected_default'>";
+    		echo "<label for='" + $cc['Id'] + "' class='availableEvents'> Available Events Hidden Label</label>";
+    		echo "<input id='" + $cc['Id'] + "' data-capacity='" + $cc['Event_Capacity__c'] +"' data-date='" + $cc['StartDate'] +"' data-enddate='" + $cc['EndDate'] +"' data-endtime='" + $cc['End_Time__c'] +"' data-id='" + $cc['Id'] +"' data-name='" + $cc['Name'] +"' data-registrationstartdate='" + $cc['Registration_Start_Date__c'] +"' data-spacesleft='" + $cc['Event_Spaces_Left__c'] +"' data-status='" + $cc['Status'] +"' data-time='" + $cc['Start_Time__c'] +"' name='availableEvents' type='radio' value='" +  +"' />";
+    	
+    		echo "<span style='font-weight: 800;'>Name: </span>" + $cc['Name'] + "<br />";
+    		echo "<span style='font-weight: 800;'>Registration: </span>" + $cc['Registration_Start_Date__c'] + "<br />";
+    		echo "<span style='font-weight: 800;'>Capacity: </span>" + $cc['Event_Capacity__c'] + "<br />";
+    		echo "<span style='font-weight: 800;'>Spaces Left: </span>" + $cc['Event_Spaces_Left__c'] + "<br />";
+    		echo "<span style='font-weight: 800;'>Start Date: </span>" + $cc['StartDate'] + "<br />";
+    		echo "<span style='font-weight: 800;'>End Date: </span>" + $cc['EndDate'] + "<br />";
+    		echo "<span style='font-weight: 800;'>Start Time: </span>" + $cc['Start_Time__c'] + "<br />";
+    		echo "<span style='font-weight: 800;'>Status: </span>" + $cc['Status'] + "<br />";
+    		echo "<span style='font-weight: 800;'>End Time: </span>" + $cc['End_Time__c'] ;
+    	echo "</li>";
+
+    }
+
+    echo "</ul>";
+    echo "<input id=\"eventIDHidden\" type=\"hidden\" name=\"eventIDHidden\" />";
+
+
+             
+	
 
 
     // Look for record based on first last and email
@@ -27,6 +60,9 @@
     	// If return result is 0, create Contact, create opportunity, add to campaign
 
     	//-> FUZZYNESS WILL BE A BIT CONFUSING
+
+
+
 
     // show_accounts($instance_url, $access_token);
 
