@@ -8,16 +8,18 @@
     $instance_url = $_SESSION['instance_url'];
 
     if (!isset($access_token) || $access_token == "") {
-        die("Error - access token missing from session!");
+        //die("Error - access token missing from session!");
     }
 
     if (!isset($instance_url) || $instance_url == "") {
-        die("Error - instance URL missing from session!");
+        //die("Error - instance URL missing from session!");
     }
 	
-	if(isset($_GET['submit'])){
+
+	$page_success = $_GET['submit'];
+	if(isset($page_success)){
 	
-		if( $_GET['submit'] == 1 ){
+		if( $page_success == 1 ){
 			
 			$firstName = $_POST['firstname'];
 			$lastName = $_POST['lastname'];
@@ -70,12 +72,11 @@
 			$eventID = $_POST['eventIDHidden'];
 			$numberOfGuests = $_POST['numberOfGuests'];
 			
-			print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
 			
+			//print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
 			
-			echo $firstName;
-			$page_success = $_GET['submit'];
 			$page_load = 1;
+
 			die("testing feature");
 		}
 		
@@ -400,7 +401,7 @@
 	function pageload(){
 
 	var proposedMajor = [],
-	inArrays;
+    inArrays;
 
 	$('[class*=focus]').focus();
 
@@ -429,94 +430,92 @@
 
 
 
-	$('[id="mobileMenuButton"]').on('click', function(e){
+	$('[id="mobileMenuButton"]').on('click', function(e) {
 
-	e.preventDefault(e);
-	var nav = $('nav'),
-	navMenu = $('nav ul');
+	    e.preventDefault(e);
+	    var nav = $('nav'),
+	        navMenu = $('nav ul');
 
-	if( navMenu.hasClass("openMobileMenu") ){
-	nav.removeClass("openNav");
-	navMenu.removeClass("openMobileMenu");
-	}else{
-	nav.addClass("openNav");
-	navMenu.addClass("openMobileMenu");
-	}
-
-	});
-
-
-
-	$('[id*="startdate"]').change(function(e){
-
-	var startdate = $(this).val(),
-	startyear = $('[id*="startyear"]').val();
-
-	if( startyear != ''){
-
-	var termvalue = "4" + startyear.slice(-2) + startdate;
-	$('[id*="termIDHidden"]').val(termvalue);
-	}
-	});
-	$('[id*="startyear"]').change(function(e){
-
-	var startdate = $('[id*="startdate"]').val(),
-	startyear = $('[id*="startyear"]').val();
-
-	if( startyear != ''){
-
-	var termvalue = "4" + startyear.slice(-2) + startdate;
-
-	$('[id*="termIDHidden"]').val(termvalue);
-	}
-	});
-
-
-	$('[id*=us_yes_no] input').change(function(e){
-	$('.countryChild').addClass('hiddenClass');
-	if($(this).val() == "YES"){
-	$('#countryYes').removeClass('hiddenClass');
-	$('#countryNo').find("input").val("");
-	}else{
-	$('#countryNo').removeClass('hiddenClass');
-	$('#countryYes').find("input").val("");
-	$('#countryYes').find("select").val("");
-	}
-	});
-
-	$('select[id*="majorList"]').change(function(e){
-
-	var major = $('select[id*="majorList"] option:selected').html();
-
-	$('[id*="acadPlanHidden"] option').filter(function() {
-	return $(this).text() === major
-	}).attr('selected', true);
-
-
-	});
-
-	$('select[id*="acadPlanHidden"]').change(function(e){
-
-	var major = $('select[id*="acadPlanHidden"] option:selected').html();
-
-	$('[id*="majorList"] option').filter(function() {
-	return $(this).text() === major
-	}).attr('selected', true);
-
+	    if (navMenu.hasClass("openMobileMenu")) {
+	        nav.removeClass("openNav");
+	        navMenu.removeClass("openMobileMenu");
+	    } else {
+	        nav.addClass("openNav");
+	        navMenu.addClass("openMobileMenu");
+	    }
 
 	});
 
 
 
-	$('select[id*="studentstatus"]').change(function(e){
-	if($(this).val() == "FYU"){
-	$('#highschoolcontain').removeClass('hiddenClass');
-	}else{
-	$('#highschoolcontain').addClass('hiddenClass');
-	$('#highschoolcontain input').val("");
-	}
+	$('[id*="startDate"]').change(function(e) {
+	    var startdate = $(this).val(),
+	        startyear = $('[id*="startYear"]').val();
+
+	    if (startyear != '') {
+
+	        var termvalue = "4" + startyear.slice(-2) + startdate;
+
+	        $('[id*="termIDHidden"]').val(termvalue);
+	    }
+	});
+	$('[id*="startYear"]').change(function(e) {
+	    var startdate = $('[id*="startDate"]').val(),
+	        startyear = $('[id*="startYear"]').val();
+
+	    if (startyear != '') {
+
+	        var termvalue = "4" + startyear.slice(-2) + startdate;
+
+	        $('[id*="termIDHidden"]').val(termvalue);
+	    }
 	});
 
+
+	$('[id*=us_yes_no] input').change(function(e) {
+	    $('.countryChild').addClass('hiddenClass');
+	    if ($(this).val() == "YES") {
+	        $('#countryYes').removeClass('hiddenClass');
+	        $('#countryNo').find("input").val("");
+	    } else {
+	        $('#countryNo').removeClass('hiddenClass');
+	        $('#countryYes').find("input").val("");
+	        $('#countryYes').find("select").val("");
+	    }
+	});
+
+	$('select[id*="majorList"]').change(function(e) {
+
+	    var major = $('select[id*="majorList"] option:selected').html();
+
+	    $('[id*="acadPlanHidden"] option').filter(function() {
+	        return $(this).text() === major
+	    }).attr('selected', true);
+
+
+	});
+
+	$('select[id*="acadPlanHidden"]').change(function(e) {
+
+	    var major = $('select[id*="acadPlanHidden"] option:selected').html();
+
+	    $('[id*="majorList"] option').filter(function() {
+	        return $(this).text() === major
+	    }).attr('selected', true);
+
+
+	});
+
+
+
+	$('select[id*="studentstatus"]').change(function(e) {
+	    if ($(this).val() == "FYU") {
+	        $('#highschoolcontain').removeClass('hiddenClass');
+	    } else {
+	        $('#highschoolcontain').addClass('hiddenClass');
+	        $('#highschoolcontain input').val("");
+	    }
+	});
 
 	/*
 	FORM VALIDATE
@@ -590,264 +589,264 @@
 
 
 
-	function validate_form(){
-	$('.errorField').removeClass('errorField');
-	$("#errorMessage").html("");
+	function validate_form() {
+	    $('.errorField').removeClass('errorField');
+	    $("#errorMessage").html("");
 
-	error_message = "<div style=\"font-size:.89rem;font-weight:700;margin-left:-20px;\">Please correct the following:</div> <br />";
-
-
-	/*
-	FIRST NAME
-	*/
-	var firstname = $('[id*=firstname]'),
-	firstnameval = firstname.val();
-	if( firstnameval == "" ){
-	firstname.addClass('errorField');
-	error_number++;
-	error_message += "First Name field is empty <br />";
-	}else if( firstnameval.length < 2 ){
-	firstname.addClass('errorField');
-	error_number++;
-	error_message += "First Name field needs a full name <br />";
-	}
-
-	/*
-	LAST NAME
-	*/
-	var lastname = $('[id*=lastname]'),
-	lastnameval = lastname.val();
-	if( lastnameval == "" ){
-	lastname.addClass('errorField');
-	error_number++;
-	error_message += "Last Name field is empty <br />";
-	}else if( lastnameval.length < 2 ){
-	lastname.addClass('errorField');
-	error_number++;
-	error_message += "Last Name field needs a full name <br />";
-	}
-
-	/*
-	EMAIL
-	*/
-	var email = $('[id*=email]'),
-	emailval = email.val();
-	if( emailval == "" ){
-	email.addClass('errorField');
-	error_number++;
-	error_message += "Email field is empty <br />";
-	}else if( !emailval.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ){
-	email.addClass('errorField');
-	error_number++;
-	error_message += "Email field is not a valid email <br />";
-	}
-
-	/*
-	PHONE NUMBER
-	*/
-	var mobilenumber = $('[id*=mobilephone]'),
-	mobilenumberval = mobilenumber.val(),
-	mobilenumberparsed = parseInt( mobilenumberval ),
-	isnotanumber = isNaN( mobilenumberval.charAt(0) )
-	afterIndex = mobilenumberval.substr(1);
-
-	if( mobilenumberval.charAt(0) == "1" || mobilenumberval.charAt(0) == "+" ){
-	var full = mobilenumberval.charAt(0) + afterIndex.replace(/[^\d.-]/g, '');
-
-	mobilenumber.val( full );
-
-	}else if( (mobilenumberval == "") || (isnotanumber) ){
-	mobilenumber.val( mobilenumberval.replace(/[^\d.-]/g, '') );
-	mobilenumber.addClass('errorField');
-	error_number++;
-	error_message += "Mobile Number field is either empty or needs a foreign/domestic number <br />";
-	}else{
-	mobilenumber.val( mobilenumberval.replace(/[^\d.-]/g, '') );
-	}
+	    error_message = "<div style=\"font-size:.89rem;font-weight:700;margin-left:-20px;\">Please correct the following:</div> <br />";
 
 
-	/*
-	COUNTRY YES OR NO
-	*/
-	var country = $('input[id*="country"]'),
-	countryischecked = country.is(':checked'),
-	countryval = $('input[id*="country"]:checked').val();
-	if( countryval == undefined ){
-	country.addClass('errorField');
-	error_number++;
-	error_message += "The US resident field is not selected <br />";
-	}else if( countryval == "YES" ){
+	    /*
+	    FIRST NAME
+	    */
+	    var firstname = $('[id*=firstname]'),
+	        firstnameval = firstname.val();
+	    if (firstnameval == "") {
+	        firstname.addClass('errorField');
+	        error_number++;
+	        error_message += "First Name field is empty <br />";
+	    } else if (firstnameval.length < 2) {
+	        firstname.addClass('errorField');
+	        error_number++;
+	        error_message += "First Name field needs a full name <br />";
+	    }
 
-	var address = $('[id*=address]'),
-	addressval = address.val(),
-	city = $('[id*=city]'),
-	cityval = city.val(),
-	state = $('[id*=state]'),
-	stateval = state.val(),
-	zipcode = $('[id*=zipcode]'),
-	zipcodeval = zipcode.val();
+	    /*
+	    LAST NAME
+	    */
+	    var lastname = $('[id*=lastname]'),
+	        lastnameval = lastname.val();
+	    if (lastnameval == "") {
+	        lastname.addClass('errorField');
+	        error_number++;
+	        error_message += "Last Name field is empty <br />";
+	    } else if (lastnameval.length < 2) {
+	        lastname.addClass('errorField');
+	        error_number++;
+	        error_message += "Last Name field needs a full name <br />";
+	    }
 
-	if(addressval == ""){
-	address.addClass('errorField');
-	error_number++;
-	error_message += "Address field is empty <br />";
-	}
-	if(cityval == ""){
-	city.addClass('errorField');
-	error_number++;
-	error_message += "City field is empty <br />";
-	}
-	if(stateval == ""){
-	state.addClass('errorField');
-	error_number++;
-	error_message += "Address field is empty <br />";
-	}
-	if(zipcodeval == ""){
-	zipcode.addClass('errorField');
-	error_number++;
-	error_message += "Address field is empty <br />";
-	}
+	    /*
+	    EMAIL
+	    */
+	    var email = $('[id*=email]'),
+	        emailval = email.val();
+	    if (emailval == "") {
+	        email.addClass('errorField');
+	        error_number++;
+	        error_message += "Email field is empty <br />";
+	    } else if (!emailval.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+	        email.addClass('errorField');
+	        error_number++;
+	        error_message += "Email field is not a valid email <br />";
+	    }
 
-	}else if( countryval == "NO" ){
-	var outsidecountry = $('[id*=outsidecountry]'),
-	outsidecountryval = outsidecountry.val();
+	    /*
+	    PHONE NUMBER
+	    */
+	    var mobilenumber = $('[id*=mobilephone]'),
+	        mobilenumberval = mobilenumber.val(),
+	        mobilenumberparsed = parseInt(mobilenumberval),
+	        isnotanumber = isNaN(mobilenumberval.charAt(0))
+	    afterIndex = mobilenumberval.substr(1);
 
-	if(outsidecountryval == ""){
-	outsidecountry.addClass('errorField');
-	error_number++;
-	error_message += "Country is empty <br />";
-	}
+	    if (mobilenumberval.charAt(0) == "1" || mobilenumberval.charAt(0) == "+") {
+	        var full = mobilenumberval.charAt(0) + afterIndex.replace(/[^\d.-]/g, '');
 
-	}
+	        mobilenumber.val(full);
 
-
-	/*
-	HISPANIC YES OR NO
-	*/
-
-	var hispanicYesOrNo = $('input[id*="hispanicYesOrNo"]'),
-	hispanicYesOrNoischecked = hispanicYesOrNo.is(':checked'),
-	hispanicYesOrNoval = $('input[id*="hispanicYesOrNo"]:checked').val();
-	if( hispanicYesOrNoval == undefined ){
-	hispanicYesOrNo.addClass('errorField');
-	error_number++;
-	error_message += "The hispanic yes/no field is not selected <br />";
-	}else if(hispanicYesOrNoval == "YES"){
-
-
-
-	}else if(hispanicYesOrNoval == "NO"){
-
-	/*
-	var race = $('[id*="race"] input'),
-	raceischecked = race.is(':checked'),
-	raceval = $('[id*="race"] input:checked').val();
-	console.log(raceval);
-	if( raceval == undefined ){
-	race.addClass('errorField');
-	error_number++;
-	error_message += "The race field is not selected <br />";
-	}
-	*/
-
-	}
+	    } else if ((mobilenumberval == "") || (isnotanumber)) {
+	        mobilenumber.val(mobilenumberval.replace(/[^\d.-]/g, ''));
+	        mobilenumber.addClass('errorField');
+	        error_number++;
+	        error_message += "Mobile Number field is either empty or needs a foreign/domestic number <br />";
+	    } else {
+	        mobilenumber.val(mobilenumberval.replace(/[^\d.-]/g, ''));
+	    }
 
 
-	/*
-	STUDENT STATUS
-	*/
-	var studentstatus = $('[id*=studentstatus]'),
-	studentstatusval = studentstatus.val();
-	if( studentstatusval == "" ){
-	studentstatus.addClass('errorField');
-	error_number++;
-	error_message += "Student Status field is empty <br />";
-	}else if( studentstatusval == "FYU" ){
-	var highschool = $('input[id*="highSchool"]')
-	highschoolval = highschool.val();
-	if( highschoolval == "" ){
-	highschool.addClass('errorField');
-	error_number++;
-	error_message += "High School field is empty <br />";
-	}
-	}
+	    /*
+	    COUNTRY YES OR NO
+	    */
+	    var country = $('input[id*="country"]'),
+	        countryischecked = country.is(':checked'),
+	        countryval = $('input[id*="country"]:checked').val();
+	    if (countryval == undefined) {
+	        country.addClass('errorField');
+	        error_number++;
+	        error_message += "The US resident field is not selected <br />";
+	    } else if (countryval == "YES") {
 
-	/*
-	START DATE
-	*/
-	var startdate = $('[id*=startdate]'),
-	startdateval = startdate.val();
-	if( startdateval == "" ){
-	startdate.addClass('errorField');
-	error_number++;
-	error_message += "Start Date field is empty <br />";
-	}
+	        var address = $('[id*=address]'),
+	            addressval = address.val(),
+	            city = $('[id*=city]'),
+	            cityval = city.val(),
+	            state = $('[id*=state]'),
+	            stateval = state.val(),
+	            zipcode = $('[id*=zipcode]'),
+	            zipcodeval = zipcode.val();
 
-	/*
-	START YEAR
-	*/
-	var startyear = $('[id*=startyear]'),
-	startyearval = startyear.val();
-	if( startyearval == "" ){
-	startyear.addClass('errorField');
-	error_number++;
-	error_message += "Start Year field is empty <br />";
+	        if (addressval == "") {
+	            address.addClass('errorField');
+	            error_number++;
+	            error_message += "Address field is empty <br />";
+	        }
+	        if (cityval == "") {
+	            city.addClass('errorField');
+	            error_number++;
+	            error_message += "City field is empty <br />";
+	        }
+	        if (stateval == "") {
+	            state.addClass('errorField');
+	            error_number++;
+	            error_message += "Address field is empty <br />";
+	        }
+	        if (zipcodeval == "") {
+	            zipcode.addClass('errorField');
+	            error_number++;
+	            error_message += "Address field is empty <br />";
+	        }
 
-	}
+	    } else if (countryval == "NO") {
+	        var outsidecountry = $('[id*=outsidecountry]'),
+	            outsidecountryval = outsidecountry.val();
 
-	/*
-	MAJOR LIST
-	*/
-	var majorList = $('[id*=majorList]'),
-	majorListval = majorList.val();
-	if( majorListval == "" ){
-	majorList.addClass('errorField');
-	error_number++;
-	error_message += "Proposed Major field is empty <br />";
-	}
+	        if (outsidecountryval == "") {
+	            outsidecountry.addClass('errorField');
+	            error_number++;
+	            error_message += "Country is empty <br />";
+	        }
 
-	/*
-	EVENTS
+	    }
 
 
-	*/
-	var availableEvents = $("#date-selected"),
-	availableEventsval = availableEvents.val();
-	if( availableEventsval == "" ){
-	$('#date-selected').addClass('errorField');
-	error_number++;
-	error_message += "No Event Selected <br />";
-	}else{
+	    /*
+	    HISPANIC YES OR NO
+	    */
 
-	var timeSelected = $('[id*=select-date-time]'),
-	timeSelectedval = timeSelected.val(),
-	numberOfGuests = $('[id*="numberOfGuests"]'),
-	numberOfGuestsval = numberOfGuests.val();
-
-	if(timeSelectedval == ""){
-
-	console.log(numberOfGuestsval);
-	timeSelected.addClass('errorField');
-	error_number++;
-	error_message += "No time selected <br />";
-
-	}
-
-	if(numberOfGuestsval == ""){
-
-	numberOfGuests.addClass('errorField');
-	error_number++;
-	error_message += "No number of guests selected <br />";
-
-	}
-	}
+	    var hispanicYesOrNo = $('input[id*="hispanicYesOrNo"]'),
+	        hispanicYesOrNoischecked = hispanicYesOrNo.is(':checked'),
+	        hispanicYesOrNoval = $('input[id*="hispanicYesOrNo"]:checked').val();
+	    if (hispanicYesOrNoval == undefined) {
+	        hispanicYesOrNo.addClass('errorField');
+	        error_number++;
+	        error_message += "The hispanic yes/no field is not selected <br />";
+	    } else if (hispanicYesOrNoval == "YES") {
 
 
 
+	    } else if (hispanicYesOrNoval == "NO") {
 
-	if(error_number > 0){
-	$("#errorMessage").removeClass("hiddenClass").html(error_message);
-	}
+	        /*
+	        var race = $('[id*="race"] input'),
+	        raceischecked = race.is(':checked'),
+	        raceval = $('[id*="race"] input:checked').val();
+	        console.log(raceval);
+	        if( raceval == undefined ){
+	        race.addClass('errorField');
+	        error_number++;
+	        error_message += "The race field is not selected <br />";
+	        }
+	        */
+
+	    }
+
+
+	    /*
+	    STUDENT STATUS
+	    */
+	    var studentstatus = $('[id*=studentstatus]'),
+	        studentstatusval = studentstatus.val();
+	    if (studentstatusval == "") {
+	        studentstatus.addClass('errorField');
+	        error_number++;
+	        error_message += "Student Status field is empty <br />";
+	    } else if (studentstatusval == "FYU") {
+	        var highschool = $('input[id*="highSchool"]')
+	        highschoolval = highschool.val();
+	        if (highschoolval == "") {
+	            highschool.addClass('errorField');
+	            error_number++;
+	            error_message += "High School field is empty <br />";
+	        }
+	    }
+
+	    /*
+	    START DATE
+	    */
+	    var startdate = $('[id*=startDate]'),
+	        startdateval = startdate.val();
+	    if (startdateval == "") {
+	        startdate.addClass('errorField');
+	        error_number++;
+	        error_message += "Start Date field is empty <br />";
+	    }
+
+	    /*
+	    START YEAR
+	    */
+	    var startyear = $('[id*=startYear]'),
+	        startyearval = startyear.val();
+	    if (startyearval == "") {
+	        startyear.addClass('errorField');
+	        error_number++;
+	        error_message += "Start Year field is empty <br />";
+
+	    }
+
+	    /*
+	    MAJOR LIST
+	    */
+	    var majorList = $('[id*=majorList]'),
+	        majorListval = majorList.val();
+	    if (majorListval == "") {
+	        majorList.addClass('errorField');
+	        error_number++;
+	        error_message += "Proposed Major field is empty <br />";
+	    }
+
+	    /*
+	    EVENTS
+
+
+	    */
+	    var availableEvents = $("#date-selected"),
+	        availableEventsval = availableEvents.val();
+	    if (availableEventsval == "") {
+	        $('#date-selected').addClass('errorField');
+	        error_number++;
+	        error_message += "No Event Selected <br />";
+	    } else {
+
+	        var timeSelected = $('[id*=select-date-time]'),
+	            timeSelectedval = timeSelected.val(),
+	            numberOfGuests = $('[id*="numberOfGuests"]'),
+	            numberOfGuestsval = numberOfGuests.val();
+
+	        if (timeSelectedval == "") {
+
+	            console.log(numberOfGuestsval);
+	            timeSelected.addClass('errorField');
+	            error_number++;
+	            error_message += "No time selected <br />";
+
+	        }
+
+	        if (numberOfGuestsval == "") {
+
+	            numberOfGuests.addClass('errorField');
+	            error_number++;
+	            error_message += "No number of guests selected <br />";
+
+	        }
+	    }
+
+
+
+
+	    if (error_number > 0) {
+	        $("#errorMessage").removeClass("hiddenClass").html(error_message);
+	    }
 
 
 	}
@@ -1410,7 +1409,7 @@
 	
     
     <?php
-	
+	/*
 		//code for dates input
 		echo "<ul id='event_selected'>" . "<br />\n";
 		echo "<li id='event_selected_default'>" . "<br />\n";
@@ -1438,8 +1437,61 @@
 	
 		echo "</ul>" . "<br />\n";
 		echo "<input id=\"eventIDHidden\" type=\"hidden\" name=\"eventIDHidden\" />";
-	
+	*/
 	?>
+	<ul id='event_selected'><br />
+<li id='event_selected_default'><br />
+<input name='availableEvents' type='radio' />Please select a value<br />
+</li><br />
+<li><br />
+<label for='7010q0000000p0pAAA' class='availableEvents'> Available Events Hidden Label</label><br />
+<input id='7010q0000000p0pAAA' data-capacity='20' data-date='2017-09-30' data-enddate='' data-endtime=':' data-id='7010q0000000p0pAAA' data-name='IUPUI AM Tour' data-registrationstartdate='2017-06-16' data-spacesleft='20' data-status='Scheduled' data-time='10:00 AM' name='availableEvents' type='radio' value='7010q0000000p0pAAA' /><br />
+<span style='font-weight: 800;'>Name: </span>IUPUI AM Tour<br />
+<span style='font-weight: 800;'>Registration: </span>2017-06-16<br />
+<span style='font-weight: 800;'>Capacity: </span>20<br />
+<span style='font-weight: 800;'>Spaces Left: </span>20<br />
+<span style='font-weight: 800;'>Start Date: </span>2017-09-30<br />
+<span style='font-weight: 800;'>End Date: </span><br />
+<span style='font-weight: 800;'>Start Time: </span>10:00 AM<br />
+<span style='font-weight: 800;'>Status: </span>Scheduled<br /><br />
+<span style='font-weight: 800;'>End Time: </span>:<br />
+</li><br /><li><br />
+<label for='7010q0000000okSAAQ' class='availableEvents'> Available Events Hidden Label</label><br />
+<input id='7010q0000000okSAAQ' data-capacity='20' data-date='2017-09-13' data-enddate='' data-endtime=':' data-id='7010q0000000okSAAQ' data-name='IUPUI AM Tour' data-registrationstartdate='2017-06-16' data-spacesleft='20' data-status='Registration Closed' data-time='10:00 AM' name='availableEvents' type='radio' value='7010q0000000okSAAQ' /><br />
+<span style='font-weight: 800;'>Name: </span>IUPUI AM Tour<br />
+<span style='font-weight: 800;'>Registration: </span>2017-06-16<br />
+<span style='font-weight: 800;'>Capacity: </span>20<br />
+<span style='font-weight: 800;'>Spaces Left: </span>20<br />
+<span style='font-weight: 800;'>Start Date: </span>2017-09-13<br />
+<span style='font-weight: 800;'>End Date: </span><br />
+<span style='font-weight: 800;'>Start Time: </span>10:00 AM<br />
+<span style='font-weight: 800;'>Status: </span>Registration Closed<br /><br />
+<span style='font-weight: 800;'>End Time: </span>:<br />
+</li><br /><li><br />
+<label for='7010q0000000p3YAAQ' class='availableEvents'> Available Events Hidden Label</label><br />
+<input id='7010q0000000p3YAAQ' data-capacity='20' data-date='2017-09-08' data-enddate='' data-endtime=':' data-id='7010q0000000p3YAAQ' data-name='IUPUI AM Tour' data-registrationstartdate='2017-06-16' data-spacesleft='20' data-status='Registration Open' data-time='10:00 AM' name='availableEvents' type='radio' value='7010q0000000p3YAAQ' /><br />
+<span style='font-weight: 800;'>Name: </span>IUPUI AM Tour<br />
+<span style='font-weight: 800;'>Registration: </span>2017-06-16<br />
+<span style='font-weight: 800;'>Capacity: </span>20<br />
+<span style='font-weight: 800;'>Spaces Left: </span>20<br />
+<span style='font-weight: 800;'>Start Date: </span>2017-09-08<br />
+<span style='font-weight: 800;'>End Date: </span><br />
+<span style='font-weight: 800;'>Start Time: </span>10:00 AM<br />
+<span style='font-weight: 800;'>Status: </span>Registration Open<br /><br />
+<span style='font-weight: 800;'>End Time: </span>:<br />
+</li><br /><li><br />
+<label for='7010q0000000p0uAAA' class='availableEvents'> Available Events Hidden Label</label><br />
+<input id='7010q0000000p0uAAA' data-capacity='20' data-date='2017-09-01' data-enddate='' data-endtime=':' data-id='7010q0000000p0uAAA' data-name='IUPUI AM Tour' data-registrationstartdate='2017-06-16' data-spacesleft='20' data-status='Registration Closed' data-time='10:00 AM' name='availableEvents' type='radio' value='7010q0000000p0uAAA' /><br />
+<span style='font-weight: 800;'>Name: </span>IUPUI AM Tour<br />
+<span style='font-weight: 800;'>Registration: </span>2017-06-16<br />
+<span style='font-weight: 800;'>Capacity: </span>20<br />
+<span style='font-weight: 800;'>Spaces Left: </span>20<br />
+<span style='font-weight: 800;'>Start Date: </span>2017-09-01<br />
+<span style='font-weight: 800;'>End Date: </span><br />
+<span style='font-weight: 800;'>Start Time: </span>10:00 AM<br />
+<span style='font-weight: 800;'>Status: </span>Registration Closed<br /><br />
+<span style='font-weight: 800;'>End Time: </span>:<br />
+</li><br /></ul><br />
     
     
     <input id="eventIDHidden" type="hidden" name="eventIDHidden" />
