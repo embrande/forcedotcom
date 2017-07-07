@@ -8,11 +8,11 @@
     $instance_url = $_SESSION['instance_url'];
 
     if (!isset($access_token) || $access_token == "") {
-        //die("Error - access token missing from session!");
+        die("Error - access token missing from session!");
     }
 
     if (!isset($instance_url) || $instance_url == "") {
-        //die("Error - instance URL missing from session!");
+        die("Error - instance URL missing from session!");
     }
 	
 
@@ -21,63 +21,122 @@
 	
 		if( $page_success == 1 ){
 			
+			$contact_array = array();
+			$opportunity_array = array();
+
 			$firstName = $_POST['firstname'];
+			$contact_array['firstName'] = $firstName;
+
 			$lastName = $_POST['lastname'];
+			$contact_array['lastName'] = $lastName;
+
 			$email = $_POST['email'];
+			$contact_array['email'] = $email;
+
 			$mobilePhone = $_POST['mobilephone'];
+			$contact_array['mobilePhone'] = $mobilePhone;
+
 			$countryYesOrNo = $_POST['country'];
+			$contact_array['countryYesOrNo'] = $countryYesOrNo;
+
 			$address = $_POST['address'];
+			$contact_array['address'] = $address;
+
 			$city = $_POST['city'];
+			$contact_array['city'] = $city;
+
 			$state = $_POST['state'];
+			$contact_array['state'] = $state;
+
 			$zipcode = $_POST['zipcode'];
+			$contact_array['zipcode'] = $zipcode;
+
 			$outsideCountry = $_POST['outsidecountry'];
+			$contact_array['outsideCountry'] = $outsideCountry;
+
 			$hispanicYesOrNo = $_POST['hispanicYesOrNo'];
+			$contact_array['hispanicYesOrNo'] = $hispanicYesOrNo;
+
 			if(!empty($_POST['race'])){
 				foreach($_POST['race'] as $race_check){
 					if($race_check == 'americanIndian')
 					{
-						echo $race_check . " <br /> ";
+						$contact_array['americanIndian'] = true;
 						// theContact.ethnic_American_Indian__c = true;
 					}
 					if($race_check == 'asian')
 					{
-						echo $race_check . " <br /> ";
+						$contact_array['asian'] = true;
 						// theContact.ethnic_Asian__c = true;
 					}
 					if($race_check == 'africanAmerican')
 					{
-						echo $race_check . " <br /> ";
+						$contact_array['africanAmerican'] = true;
 						// theContact.ethnic_African_American__c = true;
 					}
 					if($race_check == 'nativeHawaiian')
 					{
-						echo $race_check . " <br /> ";
+						$contact_array['nativeHawaiian'] = true;
 						// theContact.ethnic_Hawaiian__c = true;
 					}
 					if($race_check == 'white')
 					{
-						echo $race_check . " <br /> ";
+						$contact_array['white'] = true;
 						// theContact.ethnic_White__c = true;
 					}
 				}
 			}
 			$studentStatus = $_POST['studentstatus'];
+			$opportunity_array['studentStatus'] = $studentStatus;
+
 			$highSchool = $_POST['highSchool'];
+			$opportunity_array['highSchool'] = $highSchool;
+			
 			$startDate = $_POST['startDate'];
+			
 			$startYear = $_POST['startYear'];
+
 			$termCode = $_POST['termIDHidden'];
+			$opportunity_array['termCode'] = $termCode;
+			
 			$proposedMajor = $_POST['majorList'];
+			$opportunity_array['proposedMajor'] = $proposedMajor;
+			
 			$acadPlan = $_POST['acadPlanHidden'];
+			$opportunity_array['acadPlan'] = $acadPlan;
+			
 			$specialNeeds = $_POST['specialNeeds'];
+			$opportunity_array['specialNeeds'] = $specialNeeds;
+			
 			$eventID = $_POST['eventIDHidden'];
+			$opportunity_array['eventID'] = $eventID;
+			
 			$numberOfGuests = $_POST['numberOfGuests'];
+			$opportunity_array['numberOfGuests'] = $numberOfGuests;
 			
 			
 			//print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
 			
 			$page_load = 1;
 
-			die("testing feature");
+			/***** 
+				Get Contact amount
+			*****/
+			$contacts = find_account( $firstName, $lastName, $email, $access_token);
+			$contacts = json_decode( $contacts, true );
+
+			if( $contacts['totalSize'] > 0 ){
+
+				// $contacts['Id'];
+
+				// create a new opportunity for the returned id of the contact
+				// place contact into campaign
+			}else{
+				// create a new contact
+				// create a new opportunity for the returned id of the contact
+				// place contact into campaign
+			}
+
 		}
 		
 	}
