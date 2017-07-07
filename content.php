@@ -23,6 +23,7 @@
 			
 			$contact_array = array();
 			$opportunity_array = array();
+			$campaign_member_array = array();
 
 			$firstName = $_POST['firstname'];
 			$contact_array['firstName'] = $firstName;
@@ -37,82 +38,94 @@
 			$contact_array['mobilePhone'] = $mobilePhone;
 
 			$countryYesOrNo = $_POST['country'];
-			$contact_array['countryYesOrNo'] = $countryYesOrNo;
+			if( $countryYesOrNo == 'YES' ){
+				$address = $_POST['address'];
+				$contact_array['mailingStreet'] = $address;
+	
+				$city = $_POST['city'];
+				$contact_array['mailingCity'] = $city;
+	
+				$state = $_POST['state'];
+				$contact_array['mailingState'] = $state;
+	
+				$zipcode = $_POST['zipcode'];
+				$contact_array['mailingPostalCode'] = $zipcode;
+				
+				$contact_array['mailingCountry'] = 'United States';
+			}else{
+				$outsideCountry = $_POST['outsidecountry'];
+				$contact_array['mailingCountry'] = $outsideCountry;
+			}
 
-			$address = $_POST['address'];
-			$contact_array['address'] = $address;
-
-			$city = $_POST['city'];
-			$contact_array['city'] = $city;
-
-			$state = $_POST['state'];
-			$contact_array['state'] = $state;
-
-			$zipcode = $_POST['zipcode'];
-			$contact_array['zipcode'] = $zipcode;
-
-			$outsideCountry = $_POST['outsidecountry'];
-			$contact_array['outsideCountry'] = $outsideCountry;
 
 			$hispanicYesOrNo = $_POST['hispanicYesOrNo'];
-			$contact_array['hispanicYesOrNo'] = $hispanicYesOrNo;
+			if( $hispanicYesOrNo == 'YES' ){
+				$contact_array['ethnic_Hispanic__c'] = true;
+			}else{
+				$contact_array['ethnic_Hispanic__c'] = false;	
+			}
 
 			if(!empty($_POST['race'])){
 				foreach($_POST['race'] as $race_check){
 					if($race_check == 'americanIndian')
 					{
-						$contact_array['americanIndian'] = true;
+						$contact_array['ethnic_American_Indian__c'] = true;
 						// theContact.ethnic_American_Indian__c = true;
 					}
 					if($race_check == 'asian')
 					{
-						$contact_array['asian'] = true;
+						$contact_array['ethnic_Asian__c'] = true;
 						// theContact.ethnic_Asian__c = true;
 					}
 					if($race_check == 'africanAmerican')
 					{
-						$contact_array['africanAmerican'] = true;
+						$contact_array['ethnic_African_American__c'] = true;
 						// theContact.ethnic_African_American__c = true;
 					}
 					if($race_check == 'nativeHawaiian')
 					{
-						$contact_array['nativeHawaiian'] = true;
+						$contact_array['ethnic_Hawaiian__c'] = true;
 						// theContact.ethnic_Hawaiian__c = true;
 					}
 					if($race_check == 'white')
 					{
-						$contact_array['white'] = true;
+						$contact_array['ethnic_White__c'] = true;
 						// theContact.ethnic_White__c = true;
 					}
 				}
 			}
 			$studentStatus = $_POST['studentstatus'];
-			$opportunity_array['studentStatus'] = $studentStatus;
 
 			$highSchool = $_POST['highSchool'];
-			$opportunity_array['highSchool'] = $highSchool;
 			
 			$startDate = $_POST['startDate'];
 			
 			$startYear = $_POST['startYear'];
 
 			$termCode = $_POST['termIDHidden'];
-			$opportunity_array['termCode'] = $termCode;
 			
 			$proposedMajor = $_POST['majorList'];
-			$opportunity_array['proposedMajor'] = $proposedMajor;
 			
 			$acadPlan = $_POST['acadPlanHidden'];
-			$opportunity_array['acadPlan'] = $acadPlan;
 			
 			$specialNeeds = $_POST['specialNeeds'];
-			$opportunity_array['specialNeeds'] = $specialNeeds;
-			
 			$eventID = $_POST['eventIDHidden'];
-			$opportunity_array['eventID'] = $eventID;
-			
 			$numberOfGuests = $_POST['numberOfGuests'];
-			$opportunity_array['numberOfGuests'] = $numberOfGuests;
+			
+			$opportunity_array['Name'] = $lastName;
+			$opportunity_array['StageName'] = 'Prospect';
+			$opportunity_array['Admit_Type_Prospect__c'] = $studentStatus;
+			$opportunity_array['Institution_Prospect__c'] = 'IUINA';
+			$opportunity_array['Career_Prospect__c'] = 'UGRD';
+			$opportunity_array['Recruiting_Center__c'] = 'URGD';
+			$opportunity_array['CloseDate'] = date('Y/m/d');
+			
+			$opportunity_array['plan_Prospect__c'] = $acadPlan;
+			$opportunity_array['program_Code_Prospect__c'] = $proposedMajor;
+			if( $studentStatus == 'FYU' ){
+				$opportunity_array['pros_Last_School_Attended__c'] = $highSchool;
+			}
+			$opportunity_array['term_Code_Prospect__c'] = $termCode;
 			
 			
 			//print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
@@ -122,19 +135,48 @@
 			/***** 
 				Get Contact amount
 			*****/
-			$contacts = find_account( $firstName, $lastName, $email, $access_token);
+			$contacts = find_account( $firstName, $lastName, $email, $instance_url, $access_token);
 			$contacts = json_decode( $contacts, true );
 
-			print_r(describe_opportunity($instance_url, $access_token));
+			// print_r(describe_opportunity($instance_url, $access_token));
 			
 			if( $contacts['totalSize'] > 0 ){
 
 				// $contacts['Id'];
-
+				$opportunity_array['Contact__c'] = $contacts['Id'];
+				
 				// create a new opportunity for the returned id of the contact
+				// create_opportunity( $opportunity_array, $instance_url, $access_token );
+				
 				// place contact into campaign
+				$campaign_return_ID = find_campaign( $contacts['Id'], $eventID, $instance_url, $access_token );
+				$campaign_return_ID = json_decode( $campaign_return_ID );
+				
+				if( $campaign_return_ID['totalSize'] > 0 ){
+					
+					// update campagin
+					echo $campaign_return_ID['Id'];
+					campaign_update( $campaign_return_ID['Id'], $instance_url, $access_token );
+					
+				}else{
+					echo $contacts['Id'] . " " . $campaign_return_ID;
+					// insert into campaign	
+					$campaign_member_array['ContactID'] = $contacts['Id'];
+					$campaign_member_array['CampaignId'] = $campaign_return_ID['Id'];
+					if( $specialNeeds != ''){
+						$campaign_member_array['Special_Needs__c'] = $specialNeeds;
+					}
+					$campaign_member_array['Status'] = 'Registered';
+					$campaign_member_array['Number_of_Guests__c'] = $numberOfGuests;
+					
+					campaign_add_to( $campaign_member_array, $instance_url, $access_token );
+					
+				}
+				
 			}else{
 				// create a new contact
+				//print_r( create_contact( $contact_array, $instance_url, $access_token ) );
+				
 				// create a new opportunity for the returned id of the contact
 				// place contact into campaign
 			}
