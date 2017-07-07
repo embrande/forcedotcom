@@ -125,6 +125,8 @@
 			$contacts = find_account( $firstName, $lastName, $email, $access_token);
 			$contacts = json_decode( $contacts, true );
 
+			print_r(describe_opportunity($instance_url, $access_token));
+			
 			if( $contacts['totalSize'] > 0 ){
 
 				// $contacts['Id'];

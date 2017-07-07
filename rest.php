@@ -109,6 +109,59 @@
         return $id;
     }
 
+    function describe_opportunity($instance_url, $access_token){
+       $url =  '$instance_url/services/data/v29.0/sobjects/Opportunity/describe';
+       $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+                array("Authorization: OAuth $access_token"));
+
+        $json_response = curl_exec($curl);
+        curl_close($curl);
+
+        $response = json_decode($json_response, true);
+
+        return json_encode($response);
+
+    }
+
+    function create_opportunity($variables, $contactID,  $instance_url, $access_token) {
+        $url = "$instance_url/services/data/v20.0/sobjects/Opportunity/";
+        $field_array = array();
+        
+        // loop through $variables
+            // place into field array as field - value pairs
+            // $field_array['field'] = value;
+        // end loop
+        $content = json_encode($field_array);
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+                array("Authorization: OAuth $access_token",
+                    "Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+        $json_response = curl_exec($curl);
+
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        if ( $status != 201 ) {
+            die("Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+        }
+
+        curl_close($curl);
+
+        $response = json_decode($json_response, true);
+
+        $id = $response["id"];
+
+        return $id;
+    }
+
     function find_account($first_name, $last_name, $email, $access_token){
 
         //get account based on 
