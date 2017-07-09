@@ -196,7 +196,7 @@
     function find_account($first_name, $last_name, $email, $instance_url, $access_token){
 
         //get account based on 
-        $query = "select id,LastName from Contact where FirstName = '$first_name' and LastName = '$last_name' and Email = '$email'";
+        $query = "SELECT id,LastName from Contact where FirstName = '$first_name' and LastName = '$last_name' and Email = '$email'";
         $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
         $return_value = array();
 
@@ -245,26 +245,25 @@
 		
 	}
 	
-	function campaign_update( $campaignMemberID, $contactID, $instance_url, $access_token ){
-		$url = "$instance_url/services/data/v20.0/sobjects/CampaignMember/";
+	function campaign_update( $campaignMemberID, $instance_url, $access_token ){
+		$url = "$instance_url/services/data/v20.0/sobjects/CampaignMember/$campaignMemberID";
     
         $content = json_encode(array("Status"=>"Registered"));
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER,
                 array("Authorization: OAuth $access_token",
                     "Content-type: application/json"));
-        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
         curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
-        $json_response = curl_exec($curl);
+        curl_exec($curl);
 
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-        if ( $status != 201 ) {
-            die("Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+        if ( $status != 204 ) {
+            die("Error: call to URL $url failed with status $status, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
         }
 
         curl_close($curl);
@@ -294,7 +293,29 @@
         curl_close($curl);
 		
 	}
+    function find_opportunity( $contact, $instance_url, $access_token ){
 
+        $query = "SELECT Id from Opportunity where Contact__c = $contact and
+            Institution_Prospect__c = 'IUINA' and Career_Prospect__c != 'GRAD'";
+        $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
+        $return_value = array();
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+                array("Authorization: OAuth $access_token"));
+
+        $json_response = curl_exec($curl);
+        curl_close($curl);
+
+        $response = json_decode($json_response, true);
+        $return_value['totalSize'] = $response['totalSize'];
+
+        return json_encode( $return_value['totalSize'] );
+
+    }
+    
     
 ?>
 

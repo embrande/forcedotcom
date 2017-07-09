@@ -18,6 +18,8 @@
 
 	$page_success = $_GET['submit'];
 	if(isset($page_success)){
+
+		$page_load = 1;
 	
 		if( $page_success == 1 ){
 			
@@ -107,6 +109,8 @@
 			$proposedMajor = $_POST['majorList'];
 			
 			$acadPlan = $_POST['acadPlanHidden'];
+
+			$date_of_event = $_POST['date-date'];
 			
 			$specialNeeds = $_POST['specialNeeds'];
 			$eventID = $_POST['eventIDHidden'];
@@ -130,7 +134,6 @@
 			
 			//print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
 			
-			$page_load = 1;
 
 			/***** 
 				Get Contact amount
@@ -146,20 +149,28 @@
 				$opportunity_array['Contact__c'] = $contacts['Id'];
 				$contact_return_ID = $contacts['Id'];
 				
-				
+				$message = "If looks like you're already in our system! We've added you to the event occuring on " . $date_of_event . ". Expect an email within 24 hours.";
 				
 			}else{
 				// create a new contact
 				$newly_created_ID = create_contact( $contact_array, $instance_url, $access_token );
 				$opportunity_array['Contact__c'] = $newly_created_ID;
 				$contact_return_ID = $newly_created_ID;
+
+				$message = "We've added you to our system and to the event occuring on " . $date_of_event . ". Expect an email within 24 hours.";
+				
 			}
 
 			/*****
 				CREATE OPPORTUNITY AND ATTACH TO CAMPAIGN ID BASED ON CONTACTS
 			*****/
 			// create a new opportunity for the returned id of the contact
-			create_opportunity( $opportunity_array, $instance_url, $access_token );
+			$opportunity_return_size = find_opportunity( $contact_return_ID, $instance_url, $access_token );
+			if($opportunity_return_size > 0){
+
+			}else{
+				create_opportunity( $opportunity_array, $instance_url, $access_token );
+			}
 			
 			// place contact into campaign
 			$campaign_member_return_ID = find_campaign( $contact_return_ID, $eventID, $instance_url, $access_token );
@@ -169,7 +180,7 @@
 				
 				// update campagin member
 				echo $campaign_member_return_ID['Id'];
-				campaign_update( $campaign_member_return_ID['Id'], $contact_return_ID, $instance_url, $access_token );
+				campaign_update( $campaign_member_return_ID['Id'], $instance_url, $access_token );
 				
 			}else{
 				echo $contacts['Id'] . " " . $campaign_member_return_ID;
@@ -188,6 +199,8 @@
 
 		}
 		
+	}else{
+
 	}
 
     // get all child accounts of parent $id - then loop through it below like before (will need to delete events)
@@ -1517,7 +1530,7 @@
 	
     
     <?php
-	/*
+
 		//code for dates input
 		echo "<ul id='event_selected'>" . "<br />\n";
 		echo "<li id='event_selected_default'>" . "<br />\n";
@@ -1545,9 +1558,9 @@
 	
 		echo "</ul>" . "<br />\n";
 		echo "<input id=\"eventIDHidden\" type=\"hidden\" name=\"eventIDHidden\" />";
-	*/
+	
 	?>
-	<ul id='event_selected'><br />
+	<!-- <ul id='event_selected'><br />
 <li id='event_selected_default'><br />
 <input name='availableEvents' type='radio' />Please select a value<br />
 </li><br />
@@ -1599,7 +1612,7 @@
 <span style='font-weight: 800;'>Start Time: </span>10:00 AM<br />
 <span style='font-weight: 800;'>Status: </span>Registration Closed<br /><br />
 <span style='font-weight: 800;'>End Time: </span>:<br />
-</li><br /></ul><br />
+</li><br /></ul><br /> -->
     
     
     <input id="eventIDHidden" type="hidden" name="eventIDHidden" />
@@ -1646,7 +1659,7 @@
 
 	<div id="date-selected-container" style="width:100%;">
 	<label class="hiddenClass" for="date-selected">Select a date on the input following</label>
-	<input type="text" class="date-selected" id="date-selected" placeholder="Select your tour date by clicking here" style="display:block;" />
+	<input type="text" name="date-date" class="date-selected" id="date-selected" placeholder="Select your tour date by clicking here" style="display:block;" />
 	</div>
 
 	<label class="select-multiple-paragraph" for="select-date-time">
