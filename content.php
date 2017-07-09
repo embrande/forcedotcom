@@ -118,7 +118,7 @@
 			$opportunity_array['Institution_Prospect__c'] = 'IUINA';
 			$opportunity_array['Career_Prospect__c'] = 'UGRD';
 			$opportunity_array['Recruiting_Center__c'] = 'URGD';
-			$opportunity_array['CloseDate'] = date('Y/m/d');
+			$opportunity_array['CloseDate'] = date('Y-m-d');
 			
 			$opportunity_array['plan_Prospect__c'] = $acadPlan;
 			$opportunity_array['program_Code_Prospect__c'] = $proposedMajor;
@@ -144,41 +144,46 @@
 
 				// $contacts['Id'];
 				$opportunity_array['Contact__c'] = $contacts['Id'];
+				$contact_return_ID = $contacts['Id'];
 				
-				// create a new opportunity for the returned id of the contact
-				// create_opportunity( $opportunity_array, $instance_url, $access_token );
 				
-				// place contact into campaign
-				$campaign_return_ID = find_campaign( $contacts['Id'], $eventID, $instance_url, $access_token );
-				$campaign_return_ID = json_decode( $campaign_return_ID );
-				
-				if( $campaign_return_ID['totalSize'] > 0 ){
-					
-					// update campagin
-					echo $campaign_return_ID['Id'];
-					campaign_update( $campaign_return_ID['Id'], $instance_url, $access_token );
-					
-				}else{
-					echo $contacts['Id'] . " " . $campaign_return_ID;
-					// insert into campaign	
-					$campaign_member_array['ContactID'] = $contacts['Id'];
-					$campaign_member_array['CampaignId'] = $campaign_return_ID['Id'];
-					if( $specialNeeds != ''){
-						$campaign_member_array['Special_Needs__c'] = $specialNeeds;
-					}
-					$campaign_member_array['Status'] = 'Registered';
-					$campaign_member_array['Number_of_Guests__c'] = $numberOfGuests;
-					
-					campaign_add_to( $campaign_member_array, $instance_url, $access_token );
-					
-				}
 				
 			}else{
 				// create a new contact
-				//print_r( create_contact( $contact_array, $instance_url, $access_token ) );
+				$newly_created_ID = create_contact( $contact_array, $instance_url, $access_token );
+				$opportunity_array['Contact__c'] = $newly_created_ID;
+				$contact_return_ID = $newly_created_ID;
+			}
+
+			/*****
+				CREATE OPPORTUNITY AND ATTACH TO CAMPAIGN ID BASED ON CONTACTS
+			*****/
+			// create a new opportunity for the returned id of the contact
+			create_opportunity( $opportunity_array, $instance_url, $access_token );
+			
+			// place contact into campaign
+			$campaign_member_return_ID = find_campaign( $contact_return_ID, $eventID, $instance_url, $access_token );
+			$campaign_member_return_ID = json_decode( $campaign_member_return_ID );
+			
+			if( $campaign_member_return_ID['totalSize'] > 0 ){
 				
-				// create a new opportunity for the returned id of the contact
-				// place contact into campaign
+				// update campagin member
+				echo $campaign_member_return_ID['Id'];
+				campaign_update( $campaign_member_return_ID['Id'], $contact_return_ID, $instance_url, $access_token );
+				
+			}else{
+				echo $contacts['Id'] . " " . $campaign_member_return_ID;
+				// insert into campaign	
+				$campaign_member_array['ContactID'] = $contact_return_ID;
+				$campaign_member_array['CampaignId'] = $eventID;
+				if( $specialNeeds != ''){
+					$campaign_member_array['Special_Needs__c'] = $specialNeeds;
+				}
+				$campaign_member_array['Status'] = 'Registered';
+				$campaign_member_array['Number_of_Guests__c'] = $numberOfGuests;
+				
+				campaign_add_to( $campaign_member_array, $instance_url, $access_token );
+				
 			}
 
 		}
