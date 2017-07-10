@@ -196,7 +196,7 @@
     function find_account($first_name, $last_name, $email, $instance_url, $access_token){
 
         //get account based on 
-        $query = "SELECT id,LastName from Contact where FirstName = '$first_name' and LastName = '$last_name' and Email = '$email'";
+        $query = "SELECT id, LastName from Contact where FirstName = '$first_name' and LastName = '$last_name' and Email = '$email'";
         $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
         $return_value = array();
 
@@ -211,18 +211,21 @@
 
         $response = json_decode($json_response, true);
         $return_value['totalSize'] = $response['totalSize'];
-        foreach ((array) $response['records'] as $record) {
-            // get id of first record
-            $return_value['Id'] = $record['Id'];
-        }
+        if( $return_value['totalSize'] > 0 ){
+			foreach ((array) $response['records'] as $record) {
+				// get id of first record
+				$return_value['Id'] = $record['Id'];
+			}
+		}
 
         return json_encode($return_value);
     }
 	
 	function find_campaign( $contact, $campaign, $instance_url, $access_token ){
+		
         $query = "Select id, Status, CampaignId from CampaignMember where ContactId = '$contact' and CampaignId = '$campaign'";
-		$url ="/services/data/v39.0/query?q=" . urlencode($query);
-		$return_value = array();
+        $url = "$instance_url/services/data/v20.0/query?q=" . urlencode($query);
+        $return_value = array();
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
@@ -235,13 +238,15 @@
 
         $response = json_decode($json_response, true);
         $return_value['totalSize'] = $response['totalSize'];
-        foreach ((array) $response['records'] as $record) {
-            // get id of first record
-            $return_value['Id'] = $record['Id'];
-        }
-
-        return json_encode($return_value);
 		
+		if( $return_value['totalSize'] > 0 ){
+			foreach ((array) $response['records'] as $record) {
+				// get id of first record
+				$return_value['Id'] = $record['Id'];
+			}
+		}
+		
+        return json_encode($return_value);
 		
 	}
 	

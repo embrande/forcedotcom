@@ -18,7 +18,7 @@
 
 	$page_success = $_GET['submit'];
 	if(isset($page_success)){
-
+		
 		$page_load = 1;
 	
 		if( $page_success == 1 ){
@@ -131,8 +131,7 @@
 			}
 			$opportunity_array['term_Code_Prospect__c'] = $termCode;
 			
-			
-			//print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
+			// print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
 			
 
 			/***** 
@@ -140,11 +139,11 @@
 			*****/
 			$contacts = find_account( $firstName, $lastName, $email, $instance_url, $access_token);
 			$contacts = json_decode( $contacts, true );
-
-			// print_r(describe_opportunity($instance_url, $access_token));
+			
+			
 			
 			if( $contacts['totalSize'] > 0 ){
-
+				
 				// $contacts['Id'];
 				$opportunity_array['Contact__c'] = $contacts['Id'];
 				$contact_return_ID = $contacts['Id'];
@@ -156,7 +155,7 @@
 				$newly_created_ID = create_contact( $contact_array, $instance_url, $access_token );
 				$opportunity_array['Contact__c'] = $newly_created_ID;
 				$contact_return_ID = $newly_created_ID;
-
+				
 				$message = "We've added you to our system and to the event occuring on " . $date_of_event . ". Expect an email within 24 hours.";
 				
 			}
@@ -172,18 +171,20 @@
 				create_opportunity( $opportunity_array, $instance_url, $access_token );
 			}
 			
+			
 			// place contact into campaign
 			$campaign_member_return_ID = find_campaign( $contact_return_ID, $eventID, $instance_url, $access_token );
-			$campaign_member_return_ID = json_decode( $campaign_member_return_ID );
+			$campaign_member_return_ID = json_decode( $campaign_member_return_ID, true );
+			
 			
 			if( $campaign_member_return_ID['totalSize'] > 0 ){
 				
+			
 				// update campagin member
-				echo $campaign_member_return_ID['Id'];
 				campaign_update( $campaign_member_return_ID['Id'], $instance_url, $access_token );
 				
 			}else{
-				echo $contacts['Id'] . " " . $campaign_member_return_ID;
+			
 				// insert into campaign	
 				$campaign_member_array['ContactID'] = $contact_return_ID;
 				$campaign_member_array['CampaignId'] = $eventID;
@@ -209,38 +210,7 @@
     	$campaign_children = json_decode( $campaign_children, true );
     }
 
-  
-
-
-    // Look for record based on first last and email
-
-    	// If return result is greater than 0 - add to campaign; create opportunity
-
-    	// If return result is 0, create Contact, create opportunity, add to campaign
-
-    	//-> FUZZYNESS WILL BE A BIT CONFUSING
-
-
-
-
-    // show_accounts($instance_url, $access_token);
-
-    // $id = create_account("My New Org", $instance_url, $access_token);
-
-    // show_account($id, $instance_url, $access_token);
-
-    // show_accounts($instance_url, $access_token);
-
-    // update_account($id, "My New Org, Inc", "San Francisco",
-    //         $instance_url, $access_token);
-
-    // show_account($id, $instance_url, $access_token);
-
-    // show_accounts($instance_url, $access_token);
-
-    // delete_account($id, $instance_url, $access_token);
-
-    // show_accounts($instance_url, $access_token);
+ 
             
 ?>
 <!doctype html>
@@ -1084,6 +1054,10 @@
 
 	<H1>Daily IUPUI Campus Tours</H1>
     
+    <?php
+    if($page_load == 0){
+	?>
+    
 	<form id="EventRegistrationCampusTour:campusVisitForm" name="EventRegistrationCampusTour:campusVisitForm" method="post" action="?submit=1" class="iu_form" enctype="application/x-www-form-urlencoded">
 	<input type="hidden" name="EventRegistrationCampusTour:campusVisitForm" value="EventRegistrationCampusTour:campusVisitForm" />
 	
@@ -1691,6 +1665,16 @@
 
 	</div><input type="submit" name="EventRegistrationCampusTour:campusVisitForm:j_id95" value="Submit" /><div id="EventRegistrationCampusTour:campusVisitForm:j_id97"></div>
 	</form>
+    
+    
+    <?php
+    }else{
+		echo "<div style='margin: 40px 0px 80px 0px;'>";
+		echo $message;
+		echo "</div>";
+	}
+	?>
+    
     
 
 	</div>
