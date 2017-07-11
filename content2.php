@@ -3,6 +3,7 @@
 	$page_load = 0;
 	$page_success;
 	
+	
     $access_token = $_SESSION['access_token'];
     $instance_url = $_SESSION['instance_url'];
 
@@ -25,6 +26,7 @@
 			$contact_array = array();
 			$opportunity_array = array();
 			$campaign_member_array = array();
+			$full_object_JSON = array();
 
 			$firstName = $_POST['firstname'];
 			$contact_array['firstName'] = $firstName;
@@ -115,6 +117,7 @@
 			$eventID = $_POST['eventIDHidden'];
 			$numberOfGuests = $_POST['numberOfGuests'];
 			
+			//$opportunity_array['Contact__c'] = $contacts['Id'];
 			$opportunity_array['Name'] = $lastName;
 			$opportunity_array['StageName'] = 'Prospect';
 			$opportunity_array['Admit_Type_Prospect__c'] = $studentStatus;
@@ -130,75 +133,24 @@
 			}
 			$opportunity_array['term_Code_Prospect__c'] = $termCode;
 			
+			// insert into campaign	
+			$campaign_member_array['ContactID'] = $contact_return_ID;
+			$campaign_member_array['CampaignId'] = $eventID;
+			if( $specialNeeds != ''){
+				$campaign_member_array['Special_Needs__c'] = $specialNeeds;
+			}
+			$campaign_member_array['Status'] = 'Registered';
+			$campaign_member_array['Number_of_Guests__c'] = $numberOfGuests;
+			
 			// print_r( "First Name: " . $firstName . " <br />Last Name: " . $lastName . " <br />Email: " . $email . " <br />Mobile Phone: " . $mobilePhone . " <br />Live in US? " . $countryYesOrNo . " <br />Address: " . $address . " <br />City: " . $city . " <br />State: " . $state . " <br />Zip: " . $zipcode . " <br />Country Name: " . $outsideCountry . " <br />You Hispanic? " . $hispanicYesOrNo . " <br />Student Status? " . $studentStatus . " <br />High School: " . $highSchool . " <br />Start Date: " . $startDate . " <br />Start Year: " . $startYear . " <br />Term Code: " . $termCode . " <br />Proposed Major " . $proposedMajor . " <br />AcadPlan " . $acadPlan . " <br />Special Needs " . $specialNeeds . " <br />Event ID: " . $eventID . " <br />Guests: " . $numberOfGuests );
 			
-
-			/***** 
-				Get Contact amount
-			*****/
-			$contacts = find_account( $firstName, $lastName, $email, $instance_url, $access_token);
-			$contacts = json_decode( $contacts, true );
+			$full_object_JSON['Contact'] = $contact_array;
+			$full_object_JSON['Opportunity'] = $opportunity_array;
+			$full_object_JSON['Campaign'] = $campaign_member_array;
 			
+			$message = restfullApexCall( $full_object_JSON, $instance_url, $access_token );
 			
-			
-			if( $contacts['totalSize'] > 0 ){
-				
-				// $contacts['Id'];
-				$opportunity_array['Contact__c'] = $contacts['Id'];
-				$contact_return_ID = $contacts['Id'];
-				
-				$message = "If looks like you're already in our system! We've added you to the event occuring on " . $date_of_event . ". Expect an email within 24 hours.";
-				
-			}else{
-				// create a new contact
-				$newly_created_ID = create_contact( $contact_array, $instance_url, $access_token );
-				$opportunity_array['Contact__c'] = $newly_created_ID;
-				$contact_return_ID = $newly_created_ID;
-				
-				$message = "We've added you to our system and to the event occuring on " . $date_of_event . ". Expect an email within 24 hours.";
-				
-			}
-
-			/*****
-				CREATE OPPORTUNITY AND ATTACH TO CAMPAIGN ID BASED ON CONTACTS
-			*****/
-			// create a new opportunity for the returned id of the contact
-			$opportunity_return_size = find_opportunity( $contact_return_ID, $instance_url, $access_token );
-			if($opportunity_return_size > 0){
-
-			}else{
-				create_opportunity( $opportunity_array, $instance_url, $access_token );
-			}
-			
-			
-			// place contact into campaign
-			$campaign_member_return_ID = find_campaign( $contact_return_ID, $eventID, $instance_url, $access_token );
-			$campaign_member_return_ID = json_decode( $campaign_member_return_ID, true );
-			
-			
-			if( $campaign_member_return_ID['totalSize'] > 0 ){
-				
-			
-				// update campagin member
-				campaign_update( $campaign_member_return_ID['Id'], $instance_url, $access_token );
-				
-				$message = "It looks like you're already a member of the event: " . $date_of_event . ". You should have received an email within 24 hours after registering, but if you need to update your registration or have any other questions please email us at <a href='mailto:visit@iupui.edu'>Visit at IUPUI</a>";
-				
-				
-			}else{
-			
-				// insert into campaign	
-				$campaign_member_array['ContactID'] = $contact_return_ID;
-				$campaign_member_array['CampaignId'] = $eventID;
-				if( $specialNeeds != ''){
-					$campaign_member_array['Special_Needs__c'] = $specialNeeds;
-				}
-				$campaign_member_array['Status'] = 'Registered';
-				$campaign_member_array['Number_of_Guests__c'] = $numberOfGuests;
-				
-				campaign_add_to( $campaign_member_array, $instance_url, $access_token );
-				
-			}
+			//print_r( restfullApexCall( $full_object_JSON, $instance_url ) );
 
 		}
 		

@@ -1,28 +1,6 @@
 /** Advanced CSS **/
 /**Version 1.2017**/
 
-@font-face {
-    font-family: 'BentonSansRegular';
-    src: url('https://fonts.iu.edu/fonts/benton-sans-regular.eot');
-    src: url('https://fonts.iu.edu/fonts/benton-sans-regular.eot?#iefix') form.iu_format('embedded-opentype'),
-         url('https://fonts.iu.edu/fonts/benton-sans-regular.woff') form.iu_format('woff'),
-         url('https://fonts.iu.edu/fonts/benton-sans-regular.ttf') form.iu_format('truetype'),
-         url('https://fonts.iu.edu/fonts/benton-sans-regular.svg#BentonSansRegular') form.iu_format('svg');
-    font-style: normal;
-    font-weight: normal;
-}
-@font-face {
-    font-family: 'BentonSansBold';
-    src: url('https://fonts.iu.edu/fonts/benton-sans-bold.eot');
-    src: url('https://fonts.iu.edu/fonts/benton-sans-bold.eot?#iefix') form.iu_format('embedded-opentype'),
-         url('https://fonts.iu.edu/fonts/benton-sans-bold.woff') form.iu_format('woff'),
-         url('https://fonts.iu.edu/fonts/benton-sans-bold.ttf') form.iu_format('truetype'),
-         url('https://fonts.iu.edu/fonts/benton-sans-bold.svg#BentonSansBold') form.iu_format('svg');
-    font-style: normal;
-    font-weight: normal;
-}
-
-
 /* Font */
 h1,
 h2,

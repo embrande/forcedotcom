@@ -1,6 +1,30 @@
 <?php
     session_start();
+	function restfullApexCall( $JSON_string, $instance_url, $access_token ){
+        $url = "$instance_url/services/apexrest/CreateContactOpportunityCampaignMember/v1/";
+	
+        $content = json_encode($JSON_string);
+		
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+                array("Authorization: OAuth $access_token",
+                    "Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
+        $json_response = curl_exec($curl);
+
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        curl_close($curl);
+
+        // $response = json_decode($json_response, true);
+		$response = $json_response;
+		
+		return $response;
+	}
     function show_campaigns($instance_url, $parent_id, $access_token){
         $query = "SELECT 
                         Status,
@@ -325,5 +349,5 @@
 ?>
 
 <?php
-    require_once 'content.php';
+    require_once 'content2.php';
 ?>
