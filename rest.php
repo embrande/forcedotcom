@@ -1,6 +1,7 @@
 <?php
     session_start();
-
+	function restfullApexCall( $JSON_string, $instance_url ){
+	}
     function show_campaigns($instance_url, $parent_id, $access_token){
         $query = "SELECT 
                         Status,
@@ -325,5 +326,5 @@
 ?>
 
 <?php
-    require_once 'content.php';
+    require_once 'content2.php';
 ?>
